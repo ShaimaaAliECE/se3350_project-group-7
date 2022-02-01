@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Flex, Button } from "@chakra-ui/react";
 import useGame from "../hooks/useGame";
+import { Heading } from '@chakra-ui/react';
 
 export type DemoProps = {};
 
@@ -8,7 +9,8 @@ const Demo: React.FC<DemoProps> = ({}) => {
   const game = useGame();
   return (
     <div>
-      <Box>
+      <Heading position= "fixed">Level 1: Demo of Merge Sort</Heading>
+      <Box position= "fixed" right= "0" >
         <Button onClick={game.prev}>Prev</Button>
         <Button onClick={game.next}>Next</Button>
       </Box>
@@ -18,9 +20,9 @@ const Demo: React.FC<DemoProps> = ({}) => {
           p={1} 
           m={2} 
           opacity = {index > game.stepIndex ? 0 : 1}
-          bg={index === game.stepIndex ? "blue.200" : "white"}>
+          bg={index === game.stepIndex ? "gray.200" : "white"}>
           {step.value.map((s) => 
-          s.map((ss) => <Box h={ss+"px"} w = "7px" bg="blue"/>)
+          s.map((ss) => <Box h={ss+"1px"} w = "50px" bg="blue.200"/>)
           // (
           //   <Box borderColor="black" borderStyle="solid" borderWidth="1px">
           //     {s.toString()}
