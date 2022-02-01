@@ -1,24 +1,28 @@
-import React from "react";
-import { ChakraProvider, Box, Flex, Button } from "@chakra-ui/react";
-import useGame from "./hooks/useGame";
+import React, { useState } from "react";
+import { ChakraProvider, Select, Container } from "@chakra-ui/react";
 
 function App() {
-  const game = useGame();
+  const [algo, setAlgo] = useState("");
   return (
     <ChakraProvider>
-      <Box>
-        <Button onClick={game.prev}>Prev</Button>
-        <Button onClick={game.next}>Next</Button>
-      </Box>
-      {game.steps.map((step, index) => (
-        <Flex p={1} m={2} bg={index === game.stepIndex ? "blue.200" : "white"}>
-          {step.map((s) => (
-            <Box borderColor="black" borderStyle="solid" borderWidth="1px">
-              {s.toString()}
-            </Box>
-          ))}
-        </Flex>
-      ))}
+      <Container
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <h1 style={{ textAlign: "center" }}>Algorithmn Educational Game</h1>
+        <br></br>
+        <Select
+          onChange={(e) => setAlgo(e.target.value)}
+          placeholder="Select Algo"
+        >
+          <option value="MergeSort">Merge Sort</option>
+        </Select>
+      </Container>
     </ChakraProvider>
   );
 }
