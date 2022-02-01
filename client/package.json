@@ -24,7 +24,7 @@
     "start": "react-scripts start",
     "format": "npx prettier --write --ignore-path .gitignore .",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
