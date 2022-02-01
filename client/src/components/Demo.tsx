@@ -14,7 +14,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
       </Box>
       {game.steps.map((step, index) => (
         <Flex p={1} m={2} bg={index === game.stepIndex ? "blue.200" : "white"}>
-          {step.map((s) => (
+          {step.value.map((s) => (
             <Box borderColor="black" borderStyle="solid" borderWidth="1px">
               {s.toString()}
             </Box>
