@@ -40,6 +40,7 @@ export default function useGame() {
   }, [level, min, max]);
 
   const curr = steps[stepIndex];
+  console.log(steps);
 
   function next() {
     if (stepIndex < steps.length - 1) {
