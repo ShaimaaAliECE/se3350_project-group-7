@@ -1,3 +1,14 @@
+/**
+ * Checks whether two arrays are equal by value.
+ * @param arr1
+ * @param arr2
+ * @returns True if arrays are equal. False if arrays are not equal.
+ */
+function isEqualArr(arr1: number[], arr2: number[]): boolean {
+  if (arr1.length !== arr2.length) return false;
+  return arr1.every((val, index) => val === arr2[index]);
+}
+
 export default function generateSteps(items: number[]): number[][][] {
   let steps: number[][][] = [];
   steps.push([items]);
@@ -8,7 +19,7 @@ export default function generateSteps(items: number[]): number[][][] {
     let latest = steps[steps.length - 1];
     let newStep: number[][] = [];
     latest.forEach((item) => {
-      if (item.toString() == low.toString()) {
+      if (isEqualArr(item, low)) {
         newStep.push(combined);
       } else if (item.toString() != high.toString()) {
         newStep.push(item);
