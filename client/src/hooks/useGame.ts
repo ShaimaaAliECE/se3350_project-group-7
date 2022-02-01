@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import generateSteps from "../lib/mergeSort";
+import generateSteps, { Step } from "../lib/mergeSort";
 
 interface Options {
   min?: number;
@@ -34,7 +34,7 @@ export default function useGame() {
   const [stepIndex, setStepIndex] = useState(0);
 
   const [[min, max], setMinMax] = useState([0, 20]);
-  const steps = useMemo(() => {
+  const steps: Step[] = useMemo(() => {
     const items = generateArray(10, { min, max });
     return generateSteps(items);
   }, [level, min, max]);
