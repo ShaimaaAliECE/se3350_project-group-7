@@ -29,16 +29,16 @@ export default function generateSteps(items: number[]): number[][][] {
     steps.push(newStep);
   }
 
-  function addSplitStep(left: number[], right: number[]) {
-    let start = left[0];
-    let end = right[right.length - 1];
+  function addSplitStep(low: number[], high: number[]) {
+    let start = low[0];
+    let end = high[high.length - 1];
     let latest = steps[steps.length - 1];
 
     const newStep: number[][] = [];
     latest.forEach((item) => {
       if (item[0] === start && item[item.length - 1] === end) {
-        newStep.push(left);
-        newStep.push(right);
+        newStep.push(low);
+        newStep.push(high);
       } else newStep.push(item);
     });
     steps.push(newStep);
