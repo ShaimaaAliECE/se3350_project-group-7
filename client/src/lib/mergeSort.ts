@@ -21,7 +21,7 @@ export default function generateSteps(items: number[]): number[][][] {
     latest.forEach((item) => {
       if (isEqualArr(item, low)) {
         newStep.push(combined);
-      } else if (item.toString() != high.toString()) {
+      } else if (!isEqualArr(item, high)) {
         newStep.push(item);
       } else {
       }
