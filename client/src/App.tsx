@@ -14,26 +14,26 @@ function App() {
     </ChakraProvider>
   );
   return (
-    <ChakraProvider>
-<Tabs>
-  <TabList>
-    <Tab>Level 1</Tab>
-    <Tab>Level 2</Tab>
-    <Tab>Level 3</Tab>
-    <Tab>Level 4</Tab>
-    <Tab>Level 5</Tab>
-  </TabList>
-  <TabPanels>
-    <TabPanel>
-      <Container
-        style={{
+  <ChakraProvider>
+    <Tabs>
+      <TabList>
+        <Tab>Level 1</Tab>
+        <Tab>Level 2</Tab>
+        <Tab>Level 3</Tab>
+        <Tab>Level 4</Tab>
+        <Tab>Level 5</Tab>
+      </TabList>
+      <TabPanels>
+        <TabPanel>
+          <Container
+          style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
         }}
-      >
+        >
         <h1 style={{ textAlign: "center" }}>Algorithmn Educational Game-</h1>
         <br></br>
         <Select
@@ -44,6 +44,7 @@ function App() {
         </Select>
         <br></br>
         <Button>Start</Button>
+        <Demo/>
       </Container>
     </TabPanel>
     <TabPanel>
