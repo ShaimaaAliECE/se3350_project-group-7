@@ -23,7 +23,6 @@ export default function generateSteps(items: number[]): number[][][] {
         newStep.push(combined);
       } else if (!isEqualArr(item, high)) {
         newStep.push(item);
-      } else {
       }
     });
     steps.push(newStep);
