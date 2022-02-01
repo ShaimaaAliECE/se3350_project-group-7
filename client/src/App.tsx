@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { ChakraProvider, Select, Container } from "@chakra-ui/react";
+import { ChakraProvider, Select, Container} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 function App() {
   const [algo, setAlgo] = useState("");
@@ -22,6 +23,8 @@ function App() {
         >
           <option value="MergeSort">Merge Sort</option>
         </Select>
+        <br></br>
+        <Button>Start</Button>
       </Container>
     </ChakraProvider>
   );
