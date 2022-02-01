@@ -7,12 +7,12 @@ import { Button } from "@chakra-ui/react";
 
 function App() {
   const [algo, setAlgo] = useState("");
-  // return (
+  return (
     
-  //   <ChakraProvider>
-  //     <Demo/>
-  //   </ChakraProvider>
-  // );
+    <ChakraProvider>
+      <Demo/>
+    </ChakraProvider>
+  );
   return (
     <ChakraProvider>
 <Tabs>

@@ -13,12 +13,20 @@ const Demo: React.FC<DemoProps> = ({}) => {
         <Button onClick={game.next}>Next</Button>
       </Box>
       {game.steps.map((step, index) => (
-        <Flex p={1} m={2} bg={index === game.stepIndex ? "blue.200" : "white"}>
-          {step.value.map((s) => (
-            <Box borderColor="black" borderStyle="solid" borderWidth="1px">
-              {s.toString()}
-            </Box>
-          ))}
+        <Flex 
+          align = "baseline"
+          p={1} 
+          m={2} 
+          opacity = {index > game.stepIndex ? 0 : 1}
+          bg={index === game.stepIndex ? "blue.200" : "white"}>
+          {step.value.map((s) => 
+          s.map((ss) => <Box h={ss+"px"} w = "7px" bg="blue"/>)
+          // (
+          //   <Box borderColor="black" borderStyle="solid" borderWidth="1px">
+          //     {s.toString()}
+          //   </Box>
+          // ) 
+          )}
         </Flex>
       ))}
     </div>
