@@ -1,14 +1,29 @@
 import React, { useState } from "react";
-import { ChakraProvider, Select, Container } from "@chakra-ui/react";
-import Demo from "./components/Demo";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
+import {
+  Container,
+  Select,
+  ChakraProvider,
+  Button,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MergeSortPage from "./pages/MergeSort";
+import HomePage from "./pages/Home";
 
 function App() {
   const [algo, setAlgo] = useState("");
   return (
     <ChakraProvider>
-      <Demo />
+      <Router>
+        <Routes>
+          <Route path="/merge-sort" element={<MergeSortPage />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </Router>
     </ChakraProvider>
   );
   return (
@@ -44,7 +59,6 @@ function App() {
               </Select>
               <br></br>
               <Button>Start</Button>
-              <Demo />
             </Container>
           </TabPanel>
           <TabPanel>
