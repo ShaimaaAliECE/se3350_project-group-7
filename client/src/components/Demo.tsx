@@ -9,7 +9,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
   const game = useGame();
   return (
     <div>
-      <Heading position= "fixed">Level 1: Demo of Merge Sort</Heading>
+      <Heading >Level 1: Demo of Merge Sort</Heading>
       <Box position= "fixed" right= "0" >
         <Button onClick={game.prev}>Prev</Button>
         <Button onClick={game.next}>Next</Button>

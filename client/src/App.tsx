@@ -4,15 +4,15 @@ import Demo from "./components/Demo";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { Button } from "@chakra-ui/react";
 
-
 function App() {
   const [algo, setAlgo] = useState("");
-  return (
+  
+  // return (
     
-    <ChakraProvider>
-      <Demo/>
-    </ChakraProvider>
-  );
+  //   <ChakraProvider>
+  //     <Demo/>
+  //   </ChakraProvider>
+  // );
   return (
   <ChakraProvider>
     <Tabs>
@@ -31,7 +31,7 @@ function App() {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
+          // height: "100vh",
         }}
         >
         <h1 style={{ textAlign: "center" }}>Algorithmn Educational Game-</h1>
@@ -43,9 +43,9 @@ function App() {
           <option value="MergeSort">Merge Sort</option>
         </Select>
         <br></br>
-        <Button>Start</Button>
-        <Demo/>
+        <Button >Start</Button>
       </Container>
+      <Demo/>
     </TabPanel>
     <TabPanel>
       <p>Level 2</p>
