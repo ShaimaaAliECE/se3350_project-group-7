@@ -1,6 +1,12 @@
 export interface Step {
   value: number[][];
   type: "split" | "combine" | "initial";
+  instruction: string;
+}
+
+enum Direction {
+  LEFT = 0,
+  RIGHT = 1,
 }
 
 /**
@@ -16,8 +22,13 @@ export function isEqualArr(arr1: number[], arr2: number[]): boolean {
 
 export default function generateSteps(items: number[]): Step[] {
   let steps: Step[] = [];
-  steps.push({ value: [items], type: "initial" });
-  divide(items);
+  // TODO: Remove hardcode for 10 and dynamically change the number depending on what level the user is on
+  steps.push({
+    value: [items],
+    type: "initial",
+    instruction: "Generate an unsorted array of 10 numbers.",
+  });
+  divide(items, Direction.LEFT);
   return steps;
 
   function addCombineStep(low: number[], high: number[], combined: number[]) {
@@ -39,10 +50,17 @@ export default function generateSteps(items: number[]): Step[] {
         newStep.push(item);
       }
     });
-    steps.push({ value: newStep, type: "combine" });
+
+    const instruction = `Compare the elements of the left array: [${low}], with the elements of the right array: [${high}], and combine them in sorted order.`;
+
+    steps.push({
+      value: newStep,
+      type: "combine",
+      instruction: instruction,
+    });
   }
 
-  function addSplitStep(low: number[], high: number[]) {
+  function addSplitStep(low: number[], high: number[], direction: Direction) {
     // If one of low or high is empty, then splitting
     // is trivial and shouldn't be considered a step
     if (low.length === 0 || high.length === 0) return;
@@ -57,17 +75,24 @@ export default function generateSteps(items: number[]): Step[] {
         newStep.push(high);
       } else newStep.push(item);
     });
-    steps.push({ value: newStep, type: "split" });
+
+    const instruction = `Split the array in half between ${
+      low[low.length - 1]
+    } and ${high[0]}. Check the ${
+      direction === Direction.LEFT ? "left" : "right"
+    } side array.`;
+
+    steps.push({ value: newStep, type: "split", instruction: instruction });
   }
 
-  function divide(items: number[]): number[] {
+  function divide(items: number[], direction: Direction): number[] {
     let halfLength = Math.ceil(items.length / 2);
     let low = items.slice(0, halfLength);
     let high = items.slice(halfLength);
-    addSplitStep(low, high);
+    addSplitStep(low, high, direction);
     if (halfLength > 1) {
-      low = divide(low);
-      high = divide(high);
+      low = divide(low, Direction.LEFT);
+      high = divide(high, Direction.RIGHT);
     }
     return combine(low, high);
   }

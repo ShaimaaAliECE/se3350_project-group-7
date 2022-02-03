@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Box, Flex, Button, Spacer } from "@chakra-ui/react";
+import { Box, Flex, Button, Spacer, Text, Center } from "@chakra-ui/react";
 import useGame from "../hooks/useGame";
 import { Heading } from "@chakra-ui/react";
 import Boxes from "./Boxes";
@@ -36,20 +36,31 @@ const Demo: React.FC<DemoProps> = ({}) => {
       <Box h={`calc(100vh - ${TOOLBAR_HEIGHT})`} overflowY="auto">
         {game.steps.map((step, index) => (
           <Flex
-            justify="center"
-            align="flex-end"
-            p={2}
-            m={2}
-            display={index > game.stepIndex ? "none" : "flex"}
-            opacity={index > game.stepIndex ? 0 : 1}
             bg={index === game.stepIndex ? "gray.200" : "white"}
+            justify="center"
+            flexDir="column"
           >
-            {step.value.map((arr, index) => (
-              <>
-                {index !== 0 && <Box w="10px" />}
-                <Boxes values={arr} />
-              </>
-            ))}
+            <Center>
+              <Text display={index > game.stepIndex ? "none" : "block"}>
+                {step.type === "initial" ? "" : `Step: ${index} -`}{" "}
+                {step.instruction}
+              </Text>
+            </Center>
+            <Flex
+              justify="center"
+              align="flex-end"
+              p={2}
+              m={2}
+              display={index > game.stepIndex ? "none" : "flex"}
+              opacity={index > game.stepIndex ? 0 : 1}
+            >
+              {step.value.map((arr, index) => (
+                <>
+                  {index !== 0 && <Box w="10px" />}
+                  <Boxes values={arr} />
+                </>
+              ))}
+            </Flex>
           </Flex>
         ))}
         <Box ref={endElemRef} />
