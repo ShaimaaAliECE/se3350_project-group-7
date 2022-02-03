@@ -51,11 +51,11 @@ const Demo: React.FC<DemoProps> = ({}) => {
                     borderWidth="2px"
                     borderColor="blue.500"
                     borderStyle="solid"
-                    h={num * 6 + "px"}
+                    h="50px"
                     w="50px"
                     bg="blue.300"
                     justify="center"
-                    align="flex-end"
+                    align="center"
                   >
                     {num.toString()}
                   </Flex>
