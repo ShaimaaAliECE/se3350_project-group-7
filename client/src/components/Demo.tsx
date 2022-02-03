@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Box, Flex, Button, Spacer } from "@chakra-ui/react";
 import useGame from "../hooks/useGame";
 import { Heading } from "@chakra-ui/react";
+import Boxes from "./Boxes";
 
 const TOOLBAR_HEIGHT = "64px";
 
@@ -46,20 +47,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
             {step.value.map((arr, index) => (
               <>
                 {index !== 0 && <Box w="10px" />}
-                {arr.map((num) => (
-                  <Flex
-                    borderWidth="2px"
-                    borderColor="blue.500"
-                    borderStyle="solid"
-                    h="50px"
-                    w="50px"
-                    bg="blue.300"
-                    justify="center"
-                    align="center"
-                  >
-                    {num.toString()}
-                  </Flex>
-                ))}
+                <Boxes values={arr} />
               </>
             ))}
           </Flex>

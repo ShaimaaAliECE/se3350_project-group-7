@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Flex, Button, Container, Input, Center } from "@chakra-ui/react";
 import useGame from "../hooks/useGame";
+import Boxes from "./Boxes";
 
 export default function Level2() {
   const game = useGame();
@@ -28,8 +29,12 @@ export default function Level2() {
 
   return (
     <Container centerContent>
-      <h1>{game.steps[counter - 1].value.toString()}</h1>
-      <Center>
+      <Flex>
+        {game.steps[counter - 1].value.map((arr) => (
+          <Boxes values={arr} />
+        ))}
+      </Flex>
+      <Flex>
         {game.steps[counter].value.map((arr, index) => (
           <Input
             isDisabled={correct[arr.toString()]}
@@ -39,7 +44,8 @@ export default function Level2() {
             placeholder="Insert numbers"
           />
         ))}
-      </Center>
+      </Flex>
+
       <Button onClick={() => nextStep(game.steps[counter].value)}>
         Next Step
       </Button>
