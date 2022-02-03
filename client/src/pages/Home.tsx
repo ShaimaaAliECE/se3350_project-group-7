@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Select, Container, Tabs, TabList, TabPanels,Tab, TabPanel} from "@chakra-ui/react";
+import {
+  Button,
+  Select,
+  Tabs,
+  TabList,
+  Tab,
+  VStack,
+  Center,
+  Text,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const OPTIONS = [{ value: "merge-sort", name: "Merge Sort" }];
@@ -16,7 +25,8 @@ const Home: React.FC<HomeProps> = ({}) => {
   }
 
   return (
-    <Tabs>
+    <>
+      <Tabs>
         <TabList>
           <Tab>Level 1</Tab>
           <Tab>Level 2</Tab>
@@ -24,49 +34,24 @@ const Home: React.FC<HomeProps> = ({}) => {
           <Tab>Level 4</Tab>
           <Tab>Level 5</Tab>
         </TabList>
-        
-        <TabPanels>
-        <TabPanel>
-      <Container
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <h1 style={{ textAlign: "center" }}>Algorithmn Educational Game-</h1>
-      <br></br>
-      <Select
-        onChange={(e) => setSelection(parseInt(e.target.value))}
-        placeholder="Select Algo"
-      >
-        {OPTIONS.map(({ value, name }, index) => (
-          <option value={index} key={value}>
-            {name}
-          </option>
-        ))}
-      </Select>
-      <Button mt={4} onClick={start}>
-        Start
-      </Button>
-    </Container>
-        </TabPanel>
-        <TabPanel>
-          <p>Level 2</p>
-        </TabPanel>
-        <TabPanel>
-          <p>Level 3</p>
-        </TabPanel>
-        <TabPanel>
-          <p>Level 4</p>
-        </TabPanel>
-        <TabPanel>
-          <p>Level 5</p>
-        </TabPanel>
-        </TabPanels>  
-    </Tabs>
+      </Tabs>
+      <Center mt={8}>
+        <VStack justify="center" align="center" w="50%" spacing={4}>
+          <Text as="h1">Algorithm Educational Game</Text>
+          <Select
+            onChange={(e) => setSelection(parseInt(e.target.value))}
+            placeholder="Select a Sorting Algorithm"
+          >
+            {OPTIONS.map(({ value, name }, index) => (
+              <option value={index} key={value}>
+                {name}
+              </option>
+            ))}
+          </Select>
+          <Button onClick={start}>Start</Button>
+        </VStack>
+      </Center>
+    </>
   );
 };
 
