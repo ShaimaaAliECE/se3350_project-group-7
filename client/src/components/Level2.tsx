@@ -12,7 +12,8 @@ export default function Level2() {
             let prev = correct
             prev[answer] = true
             setCorrect({ ...prev })
-            console.log(correct)
+            var audio = new Audio(require("./sounds/shortSuccess.mp3"));
+            audio.play();
         } else {
             console.log("wrong")
         }
@@ -22,7 +23,7 @@ export default function Level2() {
             <h1>{game.steps[0].value.toString()}</h1>
             <Center>
                 {game.steps[counter].value.map((arr, index) => (
-                    <Input focusBorderColor={correct[arr.toString()] ? 'lime' : 'red.300'} onChange={(e) => isValid(e.target.value, arr.toString())} placeholder='Insert numbers' />
+                    <Input isReadOnly={correct[arr.toString()]} focusBorderColor={correct[arr.toString()] ? 'lime' : 'red.300'} onChange={(e) => isValid(e.target.value, arr.toString())} placeholder='Insert numbers' />
                 )
                 )}
             </Center>
