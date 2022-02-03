@@ -41,7 +41,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
           >
             <Center>
               <Text display={index > game.stepIndex ? "none" : "block"}>
-                {step.instruction}
+                {step.type === "initial" ? "" : `Step: ${index} -`} {step.instruction}
               </Text>
             </Center>
             <Flex
