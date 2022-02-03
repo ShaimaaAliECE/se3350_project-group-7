@@ -30,11 +30,14 @@ export default function Level2() {
   return (
     <Container centerContent>
       <Flex>
-        {game.steps[counter - 1].value.map((arr) => (
-          <Boxes values={arr} />
+        {game.steps[counter - 1].value.map((arr, index) => (
+          <React.Fragment key={index}>
+            {index !== 0 && <Box w="10px" />}
+            <Boxes values={arr} />
+          </React.Fragment>
         ))}
       </Flex>
-      <Flex>
+      <Flex mt={6}>
         {game.steps[counter].value.map((arr, index) => (
           <Input
             isDisabled={correct[arr.toString()]}
@@ -46,7 +49,7 @@ export default function Level2() {
         ))}
       </Flex>
 
-      <Button onClick={() => nextStep(game.steps[counter].value)}>
+      <Button mt={6} onClick={() => nextStep(game.steps[counter].value)}>
         Next Step
       </Button>
     </Container>
