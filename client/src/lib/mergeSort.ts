@@ -26,9 +26,15 @@ export default function generateSteps(items: number[]): Step[] {
     if (low.length === 0 || high.length === 0) return;
     let latest = steps[steps.length - 1];
     let newStep: number[][] = [];
+    let seenLow = false;
     latest.value.forEach((item) => {
-      if (isEqualArr(item, low)) {
+      // If we've already seen the low element once,
+      // this element must be a duplicate of the low
+      // and the combined node has already been added as a
+      // value in the step
+      if (isEqualArr(item, low) && !seenLow) {
         newStep.push(combined);
+        seenLow = true;
       } else if (!isEqualArr(item, high)) {
         newStep.push(item);
       }
