@@ -19,26 +19,30 @@ export default function Level2() {
     }
   }
 
-  function nextStep() {
-    setCounter(counter + 1);
+  function nextStep(ans: any) {
+    if (Object.keys(correct).length === ans.length) {
+      setCounter(counter + 1);
+    }
     setCorrect({});
   }
 
   return (
     <Container centerContent>
-      <h1>{game.steps[0].value.toString()}</h1>
+      <h1>{game.steps[counter - 1].value.toString()}</h1>
       <Center>
         {game.steps[counter].value.map((arr, index) => (
           <Input
             isDisabled={correct[arr.toString()]}
-            focusBorderColor={correct[arr.toString()] ? "lime" : "red.300"}
+            focusBorderColor={correct[arr.toString()] ? "lime" : "grey"}
             borderColor={correct[arr.toString()] ? "lime" : "grey"}
             onChange={(e) => isValid(e.target.value, arr.toString())}
             placeholder="Insert numbers"
           />
         ))}
       </Center>
-      <Button onClick={nextStep}>Next Step</Button>
+      <Button onClick={() => nextStep(game.steps[counter].value)}>
+        Next Step
+      </Button>
     </Container>
   );
 }
