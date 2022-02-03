@@ -108,55 +108,106 @@ describe("Given an unsorted array", () => {
       },
     ]);
   });
-  // test("generateSteps correctly generates steps of merge sort for an array with one duplicate element", () => {
-  //   const items = [1, 3, 5, 2, 2];
-  //   const mergeSortSteps = generateSteps(items);
-  //   expect(mergeSortSteps).toEqual([
-  //     {
-  //       value: [[1, 3, 5, 2, 2]],
-  //       type: "initial",
-  //     },
-  //     {
-  //       value: [
-  //         [1, 3, 5],
-  //         [2, 2],
-  //       ],
-  //       type: "split",
-  //     },
-  //     {
-  //       value: [[1, 3], [5], [2, 2]],
-  //       type: "split",
-  //     },
-  //     {
-  //       value: [[1], [3], [5], [2, 2]],
-  //       type: "split",
-  //     },
-  //     {
-  //       value: [[1, 3], [5], [2, 2]],
-  //       type: "combine",
-  //     },
-  //     {
-  //       value: [
-  //         [1, 3, 5],
-  //         [2, 2],
-  //       ],
-  //       type: "combine",
-  //     },
-  //     {
-  //       value: [[1, 3, 5], [2], [2]],
-  //       type: "split",
-  //     },
-  //     {
-  //       value: [
-  //         [1, 3, 5],
-  //         [2, 2],
-  //       ],
-  //       type: "combine",
-  //     },
-  //     {
-  //       value: [[1, 2, 2, 3, 5]],
-  //       type: "combine",
-  //     },
-  //   ]);
-  // });
+  test("generateSteps correctly generates steps of merge sort for an array with one adjacent duplicate element", () => {
+    const items = [1, 3, 5, 2, 2];
+    const mergeSortSteps = generateSteps(items);
+    expect(mergeSortSteps).toEqual([
+      {
+        value: [[1, 3, 5, 2, 2]],
+        type: "initial",
+      },
+      {
+        value: [
+          [1, 3, 5],
+          [2, 2],
+        ],
+        type: "split",
+      },
+      {
+        value: [[1, 3], [5], [2, 2]],
+        type: "split",
+      },
+      {
+        value: [[1], [3], [5], [2, 2]],
+        type: "split",
+      },
+      {
+        value: [[1, 3], [5], [2, 2]],
+        type: "combine",
+      },
+      {
+        value: [
+          [1, 3, 5],
+          [2, 2],
+        ],
+        type: "combine",
+      },
+      {
+        value: [[1, 3, 5], [2], [2]],
+        type: "split",
+      },
+      {
+        value: [
+          [1, 3, 5],
+          [2, 2],
+        ],
+        type: "combine",
+      },
+      {
+        value: [[1, 2, 2, 3, 5]],
+        type: "combine",
+      },
+    ]);
+  });
+  test("generateSteps correctly generates steps of merge sort for an array with one non-adjacent duplicate element", () => {
+    const items = [1, 2, 5, 2, 3];
+    const mergeSortSteps = generateSteps(items);
+    expect(mergeSortSteps).toEqual([
+      {
+        value: [[1, 2, 5, 2, 3]],
+        type: "initial",
+      },
+      {
+        value: [
+          [1, 2, 5],
+          [2, 3],
+        ],
+        type: "split",
+      },
+      {
+        value: [[1, 2], [5], [2, 3]],
+        type: "split",
+      },
+      {
+        value: [[1], [2], [5], [2, 3]],
+        type: "split",
+      },
+      {
+        value: [[1, 2], [5], [2, 3]],
+        type: "combine",
+      },
+      {
+        value: [
+          [1, 2, 5],
+          [2, 3],
+        ],
+        type: "combine",
+      },
+      {
+        value: [[1, 2, 5], [2], [3]],
+        type: "split",
+      },
+      {
+        value: [
+          [1, 2, 5],
+          [2, 3],
+        ],
+        type: "combine",
+      },
+      {
+        value: [[1, 2, 2, 3, 5]],
+        type: "combine",
+      },
+    ]);
+  });
 });

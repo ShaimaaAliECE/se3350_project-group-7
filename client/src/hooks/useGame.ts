@@ -11,7 +11,7 @@ function generateArray(n: number, options?: Options) {
   const {
     min = 0,
     max = Number.MAX_SAFE_INTEGER,
-    unique = true,
+    unique = false,
   } = options || {};
   const result = [];
   const seen = new Set<number>();
