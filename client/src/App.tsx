@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { ChakraProvider, Select, Container } from "@chakra-ui/react";
 import Demo from "./components/Demo";
 import Level2 from "./components/Level2";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
-
 
 function App() {
   const [algo, setAlgo] = useState("");
@@ -35,7 +34,9 @@ function App() {
                 height: "100vh",
               }}
             >
-              <h1 style={{ textAlign: "center" }}>Algorithmn Educational Game-</h1>
+              <h1 style={{ textAlign: "center" }}>
+                Algorithmn Educational Game-
+              </h1>
               <br></br>
               <Select
                 onChange={(e) => setAlgo(e.target.value)}
