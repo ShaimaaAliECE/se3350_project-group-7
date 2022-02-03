@@ -12,6 +12,8 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import Level2 from "../components/Level2";
+import Demo from "../components/Demo";
 
 const OPTIONS = [{ value: "merge-sort", name: "Merge Sort" }];
 
@@ -29,6 +31,7 @@ const Home: React.FC<HomeProps> = ({}) => {
   return (
     <Tabs>
       <TabList>
+        <Tab>Home</Tab>
         <Tab>Level 1</Tab>
         <Tab>Level 2</Tab>
         <Tab>Level 3</Tab>
@@ -53,6 +56,12 @@ const Home: React.FC<HomeProps> = ({}) => {
               <Button onClick={start}>Start</Button>
             </VStack>
           </Center>
+        </TabPanel>
+        <TabPanel>
+          <Demo />
+        </TabPanel>
+        <TabPanel>
+          <Level2 />
         </TabPanel>
         {/* TabPanels for additional levels are below */}
         {/* <TabPanel> */}

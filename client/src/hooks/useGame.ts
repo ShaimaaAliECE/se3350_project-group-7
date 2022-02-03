@@ -35,7 +35,7 @@ export default function useGame() {
 
   const [[min, max], setMinMax] = useState([0, 20]);
   const steps: Step[] = useMemo(() => {
-    const items = generateArray(10, { min, max });
+    const items = generateArray(5, { min, max });
     return generateSteps(items);
   }, [level, min, max]);
 
