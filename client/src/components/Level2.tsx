@@ -7,6 +7,15 @@ export default function Level2() {
   const game = useGame();
   const [counter, setCounter] = useState(1);
   const [correct, setCorrect] = useState({}) as any;
+  const [values, setValues] = useState<Record<number, string>>({});
+
+  function onChange(key: number, value: string, ans: string) {
+    setValues((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+    isValid(value, ans);
+  }
 
   function isValid(input: string, answer: string) {
     if (input === answer) {
@@ -25,6 +34,7 @@ export default function Level2() {
       setCounter(counter + 1);
     }
     setCorrect({});
+    setValues({});
   }
 
   return (
@@ -40,10 +50,11 @@ export default function Level2() {
       <Flex mt={6}>
         {game.steps[counter].value.map((arr, index) => (
           <Input
+            value={values[index] || ""}
+            onChange={(e) => onChange(index, e.target.value, arr.toString())}
             isDisabled={correct[arr.toString()]}
             focusBorderColor={correct[arr.toString()] ? "lime" : "grey"}
             borderColor={correct[arr.toString()] ? "lime" : "grey"}
-            onChange={(e) => isValid(e.target.value, arr.toString())}
             placeholder="Insert numbers"
           />
         ))}
