@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Box, Flex, Button, Spacer, Text, Center } from "@chakra-ui/react";
-import useGame from "../hooks/useGame";
 import { Heading } from "@chakra-ui/react";
 import Boxes from "./Boxes";
+import { useGame } from "../context/GameContext";
 
 const TOOLBAR_HEIGHT = "64px";
 
@@ -13,7 +13,8 @@ const Demo: React.FC<DemoProps> = ({}) => {
   const endElemRef = useRef<HTMLDivElement>(null);
 
   function onNext() {
-    game.next();
+    game.nextStep();
+    // This is to automatically scroll to the last step
     setTimeout(
       () =>
         endElemRef.current?.scrollIntoView({ block: "end", inline: "start" }),
@@ -28,7 +29,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
           Level 1: Demo of Merge Sort
         </Heading>
         <Spacer />
-        <Button mr={4} onClick={game.prev}>
+        <Button mr={4} onClick={game.prevStep}>
           Prev
         </Button>
         <Button onClick={onNext}>Next</Button>
@@ -64,6 +65,12 @@ const Demo: React.FC<DemoProps> = ({}) => {
           </Flex>
         ))}
         <Box ref={endElemRef} />
+      </Box>
+
+      <Box>
+        {game.stepIndex === game.steps.length - 1 && (
+          <Button onClick={game.nextLevel}>NEXT LEVEL</Button>
+        )}
       </Box>
     </Box>
   );
