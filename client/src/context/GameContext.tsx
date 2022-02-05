@@ -57,7 +57,9 @@ export const GameProvider: React.FC = ({ children }) => {
 
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
-  const audio = useAudio("shortSuccess.mp3");
+  const inputCorrectSound = useAudio("shortSuccess.mp3");
+  const nextLevelSound = useAudio("celebration.mp3");
+  const wrongSound = useAudio("wrong.mp3");
 
   const [attempts, setAttempts] = useState(0);
   const steps: Step[] = useMemo(
@@ -75,14 +77,11 @@ export const GameProvider: React.FC = ({ children }) => {
       ...prev,
       [index]: isCorrect,
     }));
-    if (isCorrect) {
-      audio.play();
-    }
   }
 
   function checkInput(value: string, target: string) {
     if (value === target) {
-      audio.play();
+      inputCorrectSound.play();
       return true;
     } else {
       return false;
@@ -90,28 +89,39 @@ export const GameProvider: React.FC = ({ children }) => {
   }
 
   function nextStep() {
+    console.log(level)
     if (level === 0) {
-      if (stepIndex < steps.length - 1) {
+      if (stepIndex === steps.length - 1){
+        nextLevel();
+        nextLevelSound.play();
+      }
+      else if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
       }
     }
+    else{
     // check if all inputs are correct
     const isCorrect = curr.value.some(
       (arr, index) => values[index] === arr.toString()
     );
 
     if (isCorrect) {
-      if (stepIndex < steps.length - 1) {
+      if (stepIndex === steps.length - 1){
+        nextLevel();
+        nextLevelSound.play();
+      }
+      else if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
       }
-
       // clear input values
       setValues({});
       setCorrect({});
     } else {
       // not correct
       setAttempts(attempts + 1);
+      wrongSound.play();
     }
+  }
   }
 
   function prevStep() {
