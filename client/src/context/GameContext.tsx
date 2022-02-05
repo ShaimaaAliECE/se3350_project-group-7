@@ -14,7 +14,6 @@ interface ContextType {
   attempts: number;
   hasFailed: boolean;
   nextLevel: () => void;
-  checkInput: (value: string, target: string) => boolean;
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
@@ -157,7 +156,6 @@ export const GameProvider: React.FC = ({ children }) => {
         attempts,
         hasFailed: attempts === ATTEMPTS,
         nextLevel,
-        checkInput,
         handleInput,
         values,
         correct,
