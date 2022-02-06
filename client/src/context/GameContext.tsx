@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useMemo } from "react";
 import generateSteps, { Step } from "../lib/mergeSort";
 import useAudio from "../hooks/useAudio";
+import { AnyPointerEvent } from "framer-motion/types/gestures/PanSession";
 
 const ATTEMPTS = 3;
 
@@ -14,7 +15,6 @@ interface ContextType {
   attempts: number;
   hasFailed: boolean;
   nextLevel: () => void;
-  setL: (l: number) => void;
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
@@ -51,9 +51,9 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState(0);
-  const [stepIndex, setStepIndex] = useState(0);
-  const [numElems, setNumElems] = useState(2);
+  const [level, setLevel] = useState(1);
+  const [stepIndex, setStepIndex] = useState(1);
+  const [numElems, setNumElems] = useState(4);
   const [[min, max], setMinMax] = useState([0, 20]);
 
   const [values, setValues] = useState<Record<number, string>>({});
@@ -71,10 +71,7 @@ export const GameProvider: React.FC = ({ children }) => {
 
   const curr = steps[stepIndex];
 
-  function setL(l:number){
-    console.log(l)
-    setLevel(l);
-  }
+  console.log(values)
 
   function handleInput(index: number, value: string) {
     setValues((prev) => ({ ...prev, [index]: value }));
@@ -119,12 +116,20 @@ export const GameProvider: React.FC = ({ children }) => {
       else if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
       }
-      // clear input values
-      setValues({});
+      // staying constant
+      let stayingConstant:any = {}
+      for (let  i = 0; i < steps[stepIndex+1].value.length; i++){
+        if (steps[stepIndex].value.includes(steps[stepIndex+1].value[i])) {
+          stayingConstant[i] = steps[stepIndex+1].value[i]
+        }
+      }
+      setValues(stayingConstant);
+      // clear values
       setCorrect({});
     } else {
       // not correct
       setAttempts(attempts + 1);
+      setStepIndex(stepIndex + 1);
       wrongSound.play();
     }
   }
@@ -173,7 +178,6 @@ export const GameProvider: React.FC = ({ children }) => {
         attempts,
         hasFailed: attempts === ATTEMPTS,
         nextLevel,
-        setL,
         handleInput,
         values,
         correct,
