@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Box, Flex, Button, Container, Input } from "@chakra-ui/react";
 import Boxes from "./Boxes";
 import { useGame } from "../context/GameContext";
@@ -30,10 +30,12 @@ export default function Level2() {
           />
         ))}
       </Flex>
-
-      <Button mt={6} onClick={() => game.nextStep()}>
+      {game.stepIndex === game.steps.length - 1 ?
+       <Button onClick={game.nextLevel}>Next Level</Button>
+      :<Button mt={6} onClick={() => game.nextStep()}>
         Next Step
       </Button>
+      }
     </Container>
   );
 }

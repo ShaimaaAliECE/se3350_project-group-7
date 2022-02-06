@@ -14,6 +14,7 @@ interface ContextType {
   attempts: number;
   hasFailed: boolean;
   nextLevel: () => void;
+  setL: (l: number) => void;
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
@@ -62,12 +63,18 @@ export const GameProvider: React.FC = ({ children }) => {
   const wrongSound = useAudio("wrong.mp3");
 
   const [attempts, setAttempts] = useState(0);
+  
   const steps: Step[] = useMemo(
     () => generateSteps(generateArray(numElems, { min, max })),
     [min, max]
   );
 
   const curr = steps[stepIndex];
+
+  function setL(l:number){
+    console.log(l)
+    setLevel(l);
+  }
 
   function handleInput(index: number, value: string) {
     setValues((prev) => ({ ...prev, [index]: value }));
@@ -91,12 +98,11 @@ export const GameProvider: React.FC = ({ children }) => {
   function nextStep() {
     console.log(level)
     if (level === 0) {
-      if (stepIndex === steps.length - 1){
-        nextLevel();
-        nextLevelSound.play();
-      }
-      else if (stepIndex < steps.length - 1) {
+      if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
+        if (stepIndex === steps.length - 2){
+          nextLevelSound.play();
+        }
       }
     }
     else{
@@ -106,12 +112,11 @@ export const GameProvider: React.FC = ({ children }) => {
     );
 
     if (isCorrect) {
-      if (stepIndex === steps.length - 1){
-        nextLevel();
-        nextLevelSound.play();
-      }
-      else if (stepIndex < steps.length - 1) {
+      if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
+        if (stepIndex === steps.length - 1){
+          nextLevelSound.play();
+        }
       }
       // clear input values
       setValues({});
@@ -131,6 +136,7 @@ export const GameProvider: React.FC = ({ children }) => {
   }
 
   function nextLevel() {
+    //setLevel(level + 1);
     if (level === 0) {
       setNumElems(10);
       setMinMax([1, 20]);
@@ -151,7 +157,6 @@ export const GameProvider: React.FC = ({ children }) => {
       setNumElems(50);
       setMinMax([1, 100]);
     }
-    setLevel(level + 1);
   }
 
   return (
@@ -166,6 +171,7 @@ export const GameProvider: React.FC = ({ children }) => {
         attempts,
         hasFailed: attempts === ATTEMPTS,
         nextLevel,
+        setL,
         handleInput,
         values,
         correct,
