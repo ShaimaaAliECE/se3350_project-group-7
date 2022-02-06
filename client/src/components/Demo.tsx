@@ -33,7 +33,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
           Prev
         </Button>
         {game.stepIndex === game.steps.length - 1 ? (
-          <Button onClick={game.nextLevel}>Next Level</Button>
+          <Button onClick={onNext}>Next Level</Button>
         )
         : <Button onClick={onNext}>Next</Button>}
       </Flex>

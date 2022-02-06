@@ -53,7 +53,7 @@ export const GameContext = createContext<ContextType | null>(null);
 export const GameProvider: React.FC = ({ children }) => {
   const [level, setLevel] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
-  const [numElems, setNumElems] = useState(10);
+  const [numElems, setNumElems] = useState(2);
   const [[min, max], setMinMax] = useState([0, 20]);
 
   const [values, setValues] = useState<Record<number, string>>({});
@@ -96,13 +96,13 @@ export const GameProvider: React.FC = ({ children }) => {
   }
 
   function nextStep() {
-    console.log(level)
     if (level === 0) {
-      if (stepIndex < steps.length - 1) {
+      if (stepIndex === steps.length - 1){
+        nextLevelSound.play();
+        nextLevel()
+      }
+      else if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
-        if (stepIndex === steps.length - 2){
-          nextLevelSound.play();
-        }
       }
     }
     else{
@@ -112,11 +112,12 @@ export const GameProvider: React.FC = ({ children }) => {
     );
 
     if (isCorrect) {
-      if (stepIndex < steps.length - 1) {
+      if (stepIndex === steps.length - 1){
+        nextLevelSound.play();
+        nextLevel()
+      }
+      else if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
-        if (stepIndex === steps.length - 1){
-          nextLevelSound.play();
-        }
       }
       // clear input values
       setValues({});
@@ -138,6 +139,7 @@ export const GameProvider: React.FC = ({ children }) => {
   function nextLevel() {
     //setLevel(level + 1);
     if (level === 0) {
+      setStepIndex(0);
       setNumElems(10);
       setMinMax([1, 20]);
     } else if (level === 1) {

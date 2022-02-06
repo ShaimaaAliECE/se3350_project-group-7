@@ -31,7 +31,7 @@ export default function Level2() {
         ))}
       </Flex>
       {game.stepIndex === game.steps.length - 1 ?
-       <Button onClick={game.nextLevel}>Next Level</Button>
+       <Button onClick={() => game.nextStep()}>Next Level</Button>
       :<Button mt={6} onClick={() => game.nextStep()}>
         Next Step
       </Button>
