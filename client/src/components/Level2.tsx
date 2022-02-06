@@ -24,6 +24,7 @@ export default function Level2() {
             value={game.values[index] || ""}
             onChange={(e) => game.handleInput(index, e.target.value)}
             isDisabled={game.correct[index]}
+            isReadOnly={game.constant[index] || false}
             focusBorderColor={game.correct[index] ? "lime" : "grey"}
             borderColor={game.correct[index] ? "lime" : "grey"}
             placeholder="Insert numbers"

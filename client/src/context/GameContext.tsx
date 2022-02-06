@@ -18,6 +18,7 @@ interface ContextType {
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
+  constant: Record<number, boolean>;
 }
 
 interface Options {
@@ -58,6 +59,7 @@ export const GameProvider: React.FC = ({ children }) => {
 
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
+  const [constant, setConstant] = useState<Record<number, boolean>>({});
   const inputCorrectSound = useAudio("shortSuccess.mp3");
   const nextLevelSound = useAudio("celebration.mp3");
   const wrongSound = useAudio("wrong.mp3");
@@ -70,8 +72,6 @@ export const GameProvider: React.FC = ({ children }) => {
   );
 
   const curr = steps[stepIndex];
-
-  console.log(values)
 
   function handleInput(index: number, value: string) {
     setValues((prev) => ({ ...prev, [index]: value }));
@@ -104,7 +104,7 @@ export const GameProvider: React.FC = ({ children }) => {
     }
     else{
     // check if all inputs are correct
-    const isCorrect = curr.value.some(
+    const isCorrect = curr.value.every(
       (arr, index) => values[index] === arr.toString()
     );
 
@@ -118,18 +118,20 @@ export const GameProvider: React.FC = ({ children }) => {
       }
       // staying constant
       let stayingConstant:any = {}
+      let readOnly:any = {}
       for (let  i = 0; i < steps[stepIndex+1].value.length; i++){
         if (steps[stepIndex].value.includes(steps[stepIndex+1].value[i])) {
-          stayingConstant[i] = steps[stepIndex+1].value[i]
+          stayingConstant[i] = steps[stepIndex+1].value[i].toString()
+          readOnly[i] = true
         }
       }
       setValues(stayingConstant);
+      setConstant(readOnly);
       // clear values
       setCorrect({});
     } else {
       // not correct
       setAttempts(attempts + 1);
-      setStepIndex(stepIndex + 1);
       wrongSound.play();
     }
   }
@@ -181,6 +183,7 @@ export const GameProvider: React.FC = ({ children }) => {
         handleInput,
         values,
         correct,
+        constant
       }}
     >
       {children}
