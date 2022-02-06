@@ -19,7 +19,7 @@ export default function Level2() {
         </Flex>
       )}
       <Text>
-                {game.steps[game.stepIndex].instruction}
+        {game.steps[game.stepIndex].instruction}
       </Text>
       <Flex mt={6}>
         {game.steps[game.stepIndex].value.map((arr, index) => (
@@ -28,9 +28,9 @@ export default function Level2() {
             onChange={(e) => game.handleInput(index, e.target.value)}
             isDisabled={game.correct[index]}
             isReadOnly={game.constant[index] || false}
-            focusBorderColor={game.correct[index] ? "lime" : "grey"}
-            borderColor={game.correct[index] ? "lime" : "grey"}
-            placeholder="Insert numbers"
+            focusBorderColor={game.correct[index] ? "lime" : "blue.200"}
+            borderColor={game.correct[index] ? "lime" : !game.correct[index] && game.correct[index] !== undefined ? "red.500": "grey"}
+            placeholder={"Insert numbers"}
           />
         ))}
       </Flex>

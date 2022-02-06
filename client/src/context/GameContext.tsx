@@ -60,6 +60,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
   const [constant, setConstant] = useState<Record<number, boolean>>({});
+
   const inputCorrectSound = useAudio("shortSuccess.mp3");
   const nextLevelSound = useAudio("celebration.mp3");
   const wrongSound = useAudio("wrong.mp3");
@@ -131,8 +132,8 @@ export const GameProvider: React.FC = ({ children }) => {
       setCorrect({});
     } else {
       // not correct
-      setAttempts(attempts + 1);
       wrongSound.play();
+      setAttempts(attempts + 1);
     }
   }
   }
@@ -183,7 +184,7 @@ export const GameProvider: React.FC = ({ children }) => {
         handleInput,
         values,
         correct,
-        constant
+        constant,
       }}
     >
       {children}
