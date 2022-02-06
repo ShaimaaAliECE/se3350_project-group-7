@@ -69,7 +69,7 @@ const Demo: React.FC<DemoProps> = ({}) => {
 
       <Box>
         {game.stepIndex === game.steps.length - 1 && (
-          <Button onClick={game.nextLevel}>NEXT LEVEL</Button>
+          <Button onClick={() => game.jumpToLevel(1)}>NEXT LEVEL</Button>
         )}
       </Box>
     </Box>

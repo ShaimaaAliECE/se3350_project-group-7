@@ -4,6 +4,38 @@ import useAudio from "../hooks/useAudio";
 
 const ATTEMPTS = 3;
 
+const LEVELS = {
+  0: {
+    start: 0,
+    min: 1,
+    max: 20,
+    nums: 10,
+  },
+  1: {
+    start: 1,
+    min: 1,
+    max: 20,
+    nums: 10,
+  },
+  2: {
+    start: 1,
+    min: 1,
+    max: 20,
+    nums: 10,
+  },
+  3: {
+    start: 1,
+    min: 1,
+    max: 50,
+    nums: 20,
+  },
+  4: {
+    start: 1,
+    min: 1,
+    max: 100,
+    nums: 50,
+  },
+};
 interface ContextType {
   steps: Step[];
   curr: Step;
@@ -13,7 +45,7 @@ interface ContextType {
   prevStep: () => void;
   attempts: number;
   hasFailed: boolean;
-  nextLevel: () => void;
+  jumpToLevel: (level: keyof typeof LEVELS) => void;
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
@@ -50,7 +82,7 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState<keyof typeof LEVELS>(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
@@ -120,28 +152,12 @@ export const GameProvider: React.FC = ({ children }) => {
     }
   }
 
-  function nextLevel() {
-    if (level === 0) {
-      setNumElems(10);
-      setMinMax([1, 20]);
-    } else if (level === 1) {
-      setStepIndex(1);
-      setNumElems(10);
-      setMinMax([1, 20]);
-    } else if (level === 2) {
-      setStepIndex(1);
-      setNumElems(10);
-      setMinMax([1, 20]);
-    } else if (level === 3) {
-      setStepIndex(1);
-      setNumElems(20);
-      setMinMax([1, 50]);
-    } else if (level === 4) {
-      setStepIndex(1);
-      setNumElems(50);
-      setMinMax([1, 100]);
-    }
-    setLevel(level + 1);
+  function jumpToLevel(dest: keyof typeof LEVELS) {
+    const { start, nums, min, max } = LEVELS[dest];
+    setStepIndex(start);
+    setNumElems(nums);
+    setMinMax([min, max]);
+    setLevel(dest);
   }
 
   return (
@@ -155,8 +171,8 @@ export const GameProvider: React.FC = ({ children }) => {
         curr,
         attempts,
         hasFailed: attempts === ATTEMPTS,
-        nextLevel,
         handleInput,
+        jumpToLevel,
         values,
         correct,
       }}
