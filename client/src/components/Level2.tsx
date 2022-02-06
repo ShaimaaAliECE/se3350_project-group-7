@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { Box, Flex, Button, Container, Input } from "@chakra-ui/react";
+import { Box, Flex, Button, Container, Input, Text } from "@chakra-ui/react";
 import Boxes from "./Boxes";
 import { useGame } from "../context/GameContext";
 
@@ -18,6 +18,9 @@ export default function Level2() {
           ))}
         </Flex>
       )}
+      <Text>
+                {game.steps[game.stepIndex].instruction}
+      </Text>
       <Flex mt={6}>
         {game.steps[game.stepIndex].value.map((arr, index) => (
           <Input ml={2} mr={2}
