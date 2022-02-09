@@ -134,7 +134,7 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     }
     // check if all inputs are correct
-    const isCorrect = currStep.value.some(
+    const isCorrect = currStep.value.every(
       (arr, index) => values[index] === arr.toString()
     );
 
