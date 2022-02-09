@@ -55,7 +55,7 @@ interface ContextType {
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
-  constant: Record<number, boolean>;
+  readOnly: Record<number, boolean>;
 }
 
 interface Options {
@@ -94,9 +94,10 @@ export const GameProvider: React.FC = ({ children }) => {
   const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
 
+  // FIXME: All of these states should be put into one state. They all relate to the input.
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
-  const [constant, setConstant] = useState<Record<number, boolean>>({});
+  const [readOnly, setReadOnly] = useState<Record<number, boolean>>({});
 
   const inputCorrectSound = useAudio("shortSuccess.mp3");
   const nextLevelSound = useAudio("celebration.mp3");
@@ -114,7 +115,11 @@ export const GameProvider: React.FC = ({ children }) => {
   function handleInput(index: number, value: string) {
     setValues((prev) => ({ ...prev, [index]: value }));
     const answer = steps[stepIndex].value[index];
+
     const isCorrect = checkInput(value, answer.toString());
+    if (isCorrect) {
+      inputCorrectSound.play();
+    }
     setCorrect((prev) => ({
       ...prev,
       [index]: isCorrect,
@@ -122,12 +127,8 @@ export const GameProvider: React.FC = ({ children }) => {
   }
 
   function checkInput(value: string, target: string) {
-    if (value === target) {
-      inputCorrectSound.play();
-      return true;
-    } else {
-      return false;
-    }
+    // For now, just compare strings... but in the future, it'd be nice to parse the user input to compensate for spacing or different separators (spaces, periods, etc.)
+    return value === target;
   }
 
   function nextStep() {
@@ -137,8 +138,8 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     } else {
       // check if all inputs are correct
-      const isCorrect = currStep.value.every(
-        (arr, index) => values[index] === arr.toString()
+      const isCorrect = currStep.value.every((arr, index) =>
+        checkInput(values[index], arr.toString())
       );
 
       if (isCorrect) {
@@ -147,18 +148,25 @@ export const GameProvider: React.FC = ({ children }) => {
         } else if (stepIndex < steps.length - 1) {
           setStepIndex(stepIndex + 1);
         }
-        // staying constant
-        let stayingConstant: any = {};
-        let readOnly: any = {};
-        for (let i = 0; i < steps[stepIndex + 1].value.length; i++) {
-          if (steps[stepIndex].value.includes(steps[stepIndex + 1].value[i])) {
-            stayingConstant[i] = steps[stepIndex + 1].value[i].toString();
-            readOnly[i] = true;
+
+        // determine which input's should remain constant for the next step
+        const persistentValues: Record<number, string> = {};
+
+        steps[stepIndex + 1].value.map((subArr, index) => {
+          if (steps[stepIndex].value.includes(subArr)) {
+            persistentValues[index] = subArr.toString();
           }
-        }
-        setValues(stayingConstant);
-        setConstant(readOnly);
-        // clear values
+        });
+
+        setValues(persistentValues);
+
+        // all of the persistent values should be read only
+        setReadOnly(
+          Object.keys(persistentValues).reduce((accumulator, key) => {
+            return { ...accumulator, [key]: true };
+          }, {})
+        );
+
         setCorrect({});
       } else {
         // not correct
@@ -198,7 +206,7 @@ export const GameProvider: React.FC = ({ children }) => {
         jumpToLevel,
         values,
         correct,
-        constant,
+        readOnly,
       }}
     >
       {children}

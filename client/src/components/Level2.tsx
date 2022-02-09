@@ -27,7 +27,7 @@ export default function Level2() {
             value={game.values[index] || ""}
             onChange={(e) => game.handleInput(index, e.target.value)}
             isDisabled={game.correct[index]}
-            isReadOnly={game.constant[index] || false}
+            isReadOnly={game.readOnly[index] || false}
             focusBorderColor={game.correct[index] ? "lime" : "blue.200"}
             borderColor={
               game.correct[index]
