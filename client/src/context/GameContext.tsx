@@ -38,7 +38,7 @@ const LEVELS = {
 };
 interface ContextType {
   steps: Step[];
-  curr: Step;
+  currStep: Step;
   stepIndex: number;
   level: number;
   nextStep: () => void;
@@ -97,7 +97,7 @@ export const GameProvider: React.FC = ({ children }) => {
     [min, max]
   );
 
-  const curr = steps[stepIndex];
+  const currStep = steps[stepIndex];
 
   function handleInput(index: number, value: string) {
     setValues((prev) => ({ ...prev, [index]: value }));
@@ -128,7 +128,7 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     }
     // check if all inputs are correct
-    const isCorrect = curr.value.some(
+    const isCorrect = currStep.value.some(
       (arr, index) => values[index] === arr.toString()
     );
 
@@ -168,7 +168,7 @@ export const GameProvider: React.FC = ({ children }) => {
         steps,
         nextStep,
         prevStep,
-        curr,
+        currStep,
         attempts,
         hasFailed: attempts === ATTEMPTS,
         handleInput,
