@@ -6,9 +6,9 @@ export type BoxesProps = { values: number[] };
 const Boxes: React.FC<BoxesProps> = ({ values }) => {
   return (
     <Flex>
-      {values.map((num) => (
+      {values.map((num, index) => (
         <Flex
-          key={num}
+          key={index}
           borderWidth="2px"
           borderColor="blue.500"
           borderStyle="solid"
