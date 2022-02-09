@@ -4,38 +4,44 @@ import useAudio from "../hooks/useAudio";
 
 const ATTEMPTS = 3;
 
-const LEVELS = {
-  0: {
+interface LevelConfig {
+  start: number;
+  min: number;
+  max: number;
+  nums: number;
+}
+const LEVELS: LevelConfig[] = [
+  {
     start: 0,
     min: 1,
     max: 20,
     nums: 10,
   },
-  1: {
+  {
     start: 1,
     min: 1,
     max: 20,
     nums: 10,
   },
-  2: {
+  {
     start: 1,
     min: 1,
     max: 20,
     nums: 10,
   },
-  3: {
+  {
     start: 1,
     min: 1,
     max: 50,
     nums: 20,
   },
-  4: {
+  {
     start: 1,
     min: 1,
     max: 100,
     nums: 50,
   },
-};
+];
 interface ContextType {
   steps: Step[];
   currStep: Step;
@@ -45,7 +51,7 @@ interface ContextType {
   prevStep: () => void;
   attempts: number;
   hasFailed: boolean;
-  jumpToLevel: (level: keyof typeof LEVELS) => void;
+  jumpToLevel: (level: number) => void;
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
@@ -82,7 +88,7 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState<keyof typeof LEVELS>(0);
+  const [level, setLevel] = useState<number>(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
@@ -152,7 +158,7 @@ export const GameProvider: React.FC = ({ children }) => {
     }
   }
 
-  function jumpToLevel(dest: keyof typeof LEVELS) {
+  function jumpToLevel(dest: number) {
     const { start, nums, min, max } = LEVELS[dest];
     setStepIndex(start);
     setNumElems(nums);
