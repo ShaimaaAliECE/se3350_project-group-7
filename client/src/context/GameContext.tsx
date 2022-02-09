@@ -164,6 +164,7 @@ export const GameProvider: React.FC = ({ children }) => {
     setNumElems(nums);
     setMinMax([min, max]);
     setLevel(dest);
+    setAttempts(0);
   }
 
   return (
