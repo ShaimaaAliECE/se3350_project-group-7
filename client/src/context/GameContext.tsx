@@ -94,7 +94,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const [attempts, setAttempts] = useState(0);
   const steps: Step[] = useMemo(
     () => generateSteps(generateArray(numElems, { min, max })),
-    [min, max]
+    [min, max, numElems]
   );
 
   const currStep = steps[stepIndex];
