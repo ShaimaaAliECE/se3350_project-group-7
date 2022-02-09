@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Box, Flex, Button, Container, Input, Center } from "@chakra-ui/react";
+import { Box, Flex, Button, Container, Input, Center, TagRightIcon, InputRightElement } from "@chakra-ui/react";
 import useGame from "../hooks/useGame";
 import Boxes from "./Boxes";
+import { Z_DEFAULT_STRATEGY } from "zlib";
 
 export default function Level2() {
   const game = useGame();
@@ -37,8 +38,17 @@ export default function Level2() {
     setValues({});
   }
 
+  function reset() {
+    game.restart();
+    setCorrect(0);
+    setCounter(0);
+  }
+
   return (
     <Container centerContent>
+      <Flex mb = {4}>      
+        <Button onClick={reset}>Restart</Button>
+      </Flex>
       <Flex>
         {game.steps[counter - 1].value.map((arr, index) => (
           <React.Fragment key={index}>
@@ -62,7 +72,9 @@ export default function Level2() {
 
       <Button mt={6} onClick={() => nextStep(game.steps[counter].value)}>
         Next Step
-      </Button>
+      </Button> 
+
+
     </Container>
   );
 }

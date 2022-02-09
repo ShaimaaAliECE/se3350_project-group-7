@@ -20,6 +20,9 @@ const Demo: React.FC<DemoProps> = ({}) => {
       0
     );
   }
+  function reset() {
+    game.restart();
+  }
 
   return (
     <Box h="100vh">
@@ -31,7 +34,8 @@ const Demo: React.FC<DemoProps> = ({}) => {
         <Button mr={4} onClick={game.prev}>
           Prev
         </Button>
-        <Button onClick={onNext}>Next</Button>
+        <Button mr ={4} onClick={onNext}>Next</Button>
+        <Button onClick={reset}>Restart</Button>
       </Flex>
       <Box h={`calc(100vh - ${TOOLBAR_HEIGHT})`} overflowY="auto">
         {game.steps.map((step, index) => (

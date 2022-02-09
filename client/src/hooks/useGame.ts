@@ -47,6 +47,10 @@ export default function useGame() {
     }
   }
 
+  function restart() {
+    setStepIndex(0);
+  }
+
   function prev() {
     if (stepIndex > 0) {
       setStepIndex(stepIndex - 1);
@@ -59,5 +63,6 @@ export default function useGame() {
     curr,
     next,
     prev,
+    restart
   };
 }
