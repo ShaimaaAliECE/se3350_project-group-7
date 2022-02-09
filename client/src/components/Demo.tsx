@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Box, Flex, Button, Spacer, Text, Center } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import Boxes from "./Boxes";
@@ -32,7 +32,11 @@ const Demo: React.FC<DemoProps> = ({}) => {
         <Button mr={4} onClick={game.prevStep}>
           Prev
         </Button>
-        <Button onClick={onNext}>Next</Button>
+        {game.stepIndex === game.steps.length - 1 ? (
+          <Button onClick={onNext}>Next Level</Button>
+        ) : (
+          <Button onClick={onNext}>Next</Button>
+        )}
       </Flex>
       <Box h={`calc(100vh - ${TOOLBAR_HEIGHT})`} overflowY="auto">
         {game.steps.map((step, index) => (

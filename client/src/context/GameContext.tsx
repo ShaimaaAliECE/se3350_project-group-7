@@ -55,6 +55,7 @@ interface ContextType {
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
+  constant: Record<number, boolean>;
 }
 
 interface Options {
@@ -95,9 +96,14 @@ export const GameProvider: React.FC = ({ children }) => {
 
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
-  const audio = useAudio("shortSuccess.mp3");
+  const [constant, setConstant] = useState<Record<number, boolean>>({});
+
+  const inputCorrectSound = useAudio("shortSuccess.mp3");
+  const nextLevelSound = useAudio("celebration.mp3");
+  const wrongSound = useAudio("wrong.mp3");
 
   const [attempts, setAttempts] = useState(0);
+
   const steps: Step[] = useMemo(
     () => generateSteps(generateArray(numElems, { min, max })),
     [min, max, numElems]
@@ -113,14 +119,11 @@ export const GameProvider: React.FC = ({ children }) => {
       ...prev,
       [index]: isCorrect,
     }));
-    if (isCorrect) {
-      audio.play();
-    }
   }
 
   function checkInput(value: string, target: string) {
     if (value === target) {
-      audio.play();
+      inputCorrectSound.play();
       return true;
     } else {
       return false;
@@ -132,23 +135,36 @@ export const GameProvider: React.FC = ({ children }) => {
       if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
       }
-    }
-    // check if all inputs are correct
-    const isCorrect = currStep.value.every(
-      (arr, index) => values[index] === arr.toString()
-    );
-
-    if (isCorrect) {
-      if (stepIndex < steps.length - 1) {
-        setStepIndex(stepIndex + 1);
-      }
-
-      // clear input values
-      setValues({});
-      setCorrect({});
     } else {
-      // not correct
-      setAttempts(attempts + 1);
+      // check if all inputs are correct
+      const isCorrect = currStep.value.every(
+        (arr, index) => values[index] === arr.toString()
+      );
+
+      if (isCorrect) {
+        if (stepIndex === steps.length - 1) {
+          nextLevelSound.play();
+        } else if (stepIndex < steps.length - 1) {
+          setStepIndex(stepIndex + 1);
+        }
+        // staying constant
+        let stayingConstant: any = {};
+        let readOnly: any = {};
+        for (let i = 0; i < steps[stepIndex + 1].value.length; i++) {
+          if (steps[stepIndex].value.includes(steps[stepIndex + 1].value[i])) {
+            stayingConstant[i] = steps[stepIndex + 1].value[i].toString();
+            readOnly[i] = true;
+          }
+        }
+        setValues(stayingConstant);
+        setConstant(readOnly);
+        // clear values
+        setCorrect({});
+      } else {
+        // not correct
+        wrongSound.play();
+        setAttempts(attempts + 1);
+      }
     }
   }
 
@@ -182,6 +198,7 @@ export const GameProvider: React.FC = ({ children }) => {
         jumpToLevel,
         values,
         correct,
+        constant,
       }}
     >
       {children}
