@@ -8,8 +8,7 @@ const StepValidation = () => {
       {game.stepIndex < game.steps.length - 1 &&
         game.steps[game.stepIndex + 1].value.map((arr, index) => (
           <Input
-            ml={2}
-            mr={2}
+            mx={2}
             value={game.values[index] || ""}
             onChange={(e) => game.handleInput(index, e.target.value)}
             isDisabled={game.correct[index]}
