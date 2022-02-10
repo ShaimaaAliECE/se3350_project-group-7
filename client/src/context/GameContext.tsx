@@ -209,7 +209,7 @@ export const GameProvider: React.FC = ({ children }) => {
         prevStep,
         currStep,
         attempts,
-        hasFailed: attempts === 3,
+        hasFailed: attempts === 1,
         handleInput,
         jumpToLevel,
         values,

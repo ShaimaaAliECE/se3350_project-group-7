@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -6,6 +7,7 @@ import {
   Heading,
   Spacer,
   useDisclosure,
+  Select,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -34,7 +36,7 @@ const LevelLayout: React.FC<Props> = ({
 }) => {
   const game = useGame();
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box h="100vh">
@@ -64,10 +66,8 @@ const LevelLayout: React.FC<Props> = ({
       <Modal isOpen={game.hasFailed} onClose={onClose}>
       <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader>You messed up too many times</ModalHeader>
           <ModalBody>
-            <p>hi</p>
           </ModalBody>
           </ModalContent>
       </Modal>
