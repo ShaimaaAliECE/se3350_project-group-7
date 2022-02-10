@@ -113,8 +113,13 @@ export const GameProvider: React.FC = ({ children }) => {
   const currStep = steps[stepIndex];
 
   function handleInput(index: number, value: string) {
+    // Avoid index out of bounds error, should never have to check
+    // input for the array when the sort is done
+    if (stepIndex >= steps.length - 1) return;
     setValues((prev) => ({ ...prev, [index]: value }));
-    const answer = steps[stepIndex].value[index];
+    // Check stepIndex + 1 because the user will be inputting
+    // the answer for the NEXT step based on the given instruction
+    const answer = steps[stepIndex + 1].value[index];
 
     const isCorrect = checkInput(value, answer.toString());
     if (isCorrect) {
