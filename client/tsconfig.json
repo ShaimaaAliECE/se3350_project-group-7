@@ -18,12 +18,12 @@
     "incremental": true,
     "baseUrl": "src",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/context/*": ["context/*"],
-      "@/lib/*": ["lib/*"],
-      "@/hooks/*": ["hooks/*"]
+      "@/components*": ["components*"],
+      "@/context*": ["context*"],
+      "@/lib*": ["lib*"],
+      "@/hooks*": ["hooks*"]
     }
   },
-  "include": ["src"],
+  "include": ["**/*.tsx", "**/*.ts"],
   "exclude": ["node_modules"]
 }
