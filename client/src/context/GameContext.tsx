@@ -18,25 +18,25 @@ const LEVELS: LevelConfig[] = [
     nums: 10,
   },
   {
-    start: 1,
+    start: 0,
     min: 1,
     max: 20,
     nums: 10,
   },
   {
-    start: 1,
+    start: 0,
     min: 1,
     max: 20,
     nums: 10,
   },
   {
-    start: 1,
+    start: 0,
     min: 1,
     max: 50,
     nums: 20,
   },
   {
-    start: 1,
+    start: 0,
     min: 1,
     max: 100,
     nums: 50,
@@ -113,8 +113,13 @@ export const GameProvider: React.FC = ({ children }) => {
   const currStep = steps[stepIndex];
 
   function handleInput(index: number, value: string) {
+    // Avoid index out of bounds error, should never have to check
+    // input for the array when the sort is done
+    if (stepIndex >= steps.length - 1) return;
     setValues((prev) => ({ ...prev, [index]: value }));
-    const answer = steps[stepIndex].value[index];
+    // Check stepIndex + 1 because the user will be inputting
+    // the answer for the NEXT step based on the given instruction
+    const answer = steps[stepIndex + 1].value[index];
 
     const isCorrect = checkInput(value, answer.toString());
     if (isCorrect) {
@@ -138,7 +143,7 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     } else {
       // check if all inputs are correct
-      const isCorrect = currStep.value.every((arr, index) =>
+      const isCorrect = steps[stepIndex + 1].value.every((arr, index) =>
         checkInput(values[index], arr.toString())
       );
 
@@ -150,10 +155,11 @@ export const GameProvider: React.FC = ({ children }) => {
         }
 
         // determine which input's should remain constant for the next step
-        const persistentValues = steps[stepIndex + 1].value.reduce<
+        const persistentValues = steps[stepIndex + 2].value.reduce<
           Record<number, string>
         >((acc, val, index) => {
-          if (steps[stepIndex].value.includes(val)) {
+          console.log(val);
+          if (steps[stepIndex + 1].value.includes(val)) {
             acc[index] = val.toString();
             return acc;
           }
