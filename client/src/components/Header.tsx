@@ -21,10 +21,10 @@ const Header = () => {
         <TabList>
           <Tab>Home</Tab>
           <Tab onClick={() => game.jumpToLevel(0)}>Level 1</Tab>
-          <Tab onClick={() => game.jumpToLevel(1)}>Level 2</Tab>
-          <Tab onClick={() => game.jumpToLevel(2)}>Level 3</Tab>
-          <Tab onClick={() => game.jumpToLevel(3)}>Level 4</Tab>
-          <Tab onClick={() => game.jumpToLevel(4)}>Level 5</Tab>
+          <Tab isDisabled={game.level < 1 ? true : false} onClick={() => game.jumpToLevel(1)}>Level 2</Tab>
+          <Tab isDisabled={game.level < 2 ? true : false} onClick={() => game.jumpToLevel(2)}>Level 3</Tab>
+          <Tab isDisabled={game.level < 3 ? true : false} onClick={() => game.jumpToLevel(3)}>Level 4</Tab>
+          <Tab isDisabled={game.level < 4 ? true : false} onClick={() => game.jumpToLevel(4)}>Level 5</Tab>
         </TabList>
       </Box>
       <TabPanels>
