@@ -143,7 +143,7 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     } else {
       // check if all inputs are correct
-      const isCorrect = currStep.value.every((arr, index) =>
+      const isCorrect = steps[stepIndex + 1].value.every((arr, index) =>
         checkInput(values[index], arr.toString())
       );
 
@@ -155,10 +155,11 @@ export const GameProvider: React.FC = ({ children }) => {
         }
 
         // determine which input's should remain constant for the next step
-        const persistentValues = steps[stepIndex + 1].value.reduce<
+        const persistentValues = steps[stepIndex + 2].value.reduce<
           Record<number, string>
         >((acc, val, index) => {
-          if (steps[stepIndex].value.includes(val)) {
+          console.log(val);
+          if (steps[stepIndex + 1].value.includes(val)) {
             acc[index] = val.toString();
             return acc;
           }
