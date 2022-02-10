@@ -8,6 +8,7 @@ import {
   Spacer,
   useDisclosure,
   Select,
+  Text,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -33,7 +34,7 @@ const LevelLayout: React.FC<Props> = ({
   headingText,
   showInstructions,
   showInput,
-  children
+  children,
 }) => {
   const game = useGame();
 
@@ -66,22 +67,38 @@ const LevelLayout: React.FC<Props> = ({
       </Container>
       <Button onClick={onOpen}>Open Drawer</Button>
       <Modal isOpen={game.hasFailed} onClose={onClose}>
-      <ModalOverlay />
+        <ModalOverlay />
         <ModalContent>
           <ModalHeader>You messed up too many times</ModalHeader>
           <ModalBody>
-          <Select
-                onChange={(e) => setSelection(parseInt(e.target.value))}
-                placeholder="Select a Sorting Algorithm"
-              >
-                {OPTIONS.map(({ value, name }, index) => (
-                  <option value={index} key={value}>
-                    {name}
-                  </option>
-                ))}
-              </Select>
+            <Text>
+              You used all 3 of your attempts. Do you want to restart this
+              level, try a previous level, or quit the game?
+            </Text>
+            <Select placeholder="Select Level">
+              <option value="option1">Level 1</option>
+              <option value="option2">Level 2</option>
+              <option value="option3">Level 3</option>
+            </Select>
+            <Button>Go to Level</Button>
+            <Select
+              onChange={(e) => setSelection(parseInt(e.target.value))}
+              placeholder="Select a Sorting Algorithm"
+            >
+              {OPTIONS.map(({ value, name }, index) => (
+                <option value={index} key={value}>
+                  {name}
+                </option>
+              ))}
+            </Select>
           </ModalBody>
-          </ModalContent>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
       </Modal>
     </Box>
   );
