@@ -13,9 +13,10 @@ export type Props = {};
 const Header = () => {
   // TODO: Remove this hook once next level is properly implemented.
   // Tabs should not be clickable, this is only for demo purpose.
+  //index={game.level}
   const game = useGame();
   return (
-    <Tabs index={game.level}>
+    <Tabs index={game.level + 1}> 
       <Box bg="gray.200" w="100%" position="sticky" zIndex="1" p={4}>
         <TabList>
           <Tab>Home</Tab>

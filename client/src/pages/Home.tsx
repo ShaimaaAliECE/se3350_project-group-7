@@ -21,8 +21,8 @@ const Home: React.FC<HomeProps> = ({}) => {
   const game = useGame();
 
   function start() {
-    //navigate(OPTIONS[selection].value);
-    game.jumpToLevel(1);
+    // navigate(OPTIONS[selection].value);
+    game.jumpToLevel(0);
   }
 
   return (
