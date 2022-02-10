@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
-const OPTIONS = [{ value: "merge-sort", name: "Merge Sort" }];
+const OPTIONS = [{ value: "game", name: "Merge Sort" }];
 
 export type HomeProps = {};
 
