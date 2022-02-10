@@ -25,7 +25,7 @@ const Header = () => {
   const game = useGame();
   const navigate = useNavigate();
   const routeChange = () => {
-    let path = "../";
+    let path = "/";
     navigate(path);
   };
 
