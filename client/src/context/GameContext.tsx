@@ -1,24 +1,61 @@
 import React, { createContext, useContext, useState, useMemo } from "react";
 import generateSteps, { Step } from "../lib/mergeSort";
 import useAudio from "../hooks/useAudio";
-import { AnyPointerEvent } from "framer-motion/types/gestures/PanSession";
 
 const ATTEMPTS = 3;
 
+interface LevelConfig {
+  start: number;
+  min: number;
+  max: number;
+  nums: number;
+}
+const LEVELS: LevelConfig[] = [
+  {
+    start: 0,
+    min: 1,
+    max: 20,
+    nums: 10,
+  },
+  {
+    start: 1,
+    min: 1,
+    max: 20,
+    nums: 10,
+  },
+  {
+    start: 1,
+    min: 1,
+    max: 20,
+    nums: 10,
+  },
+  {
+    start: 1,
+    min: 1,
+    max: 50,
+    nums: 20,
+  },
+  {
+    start: 1,
+    min: 1,
+    max: 100,
+    nums: 50,
+  },
+];
 interface ContextType {
   steps: Step[];
-  curr: Step;
+  currStep: Step;
   stepIndex: number;
   level: number;
   nextStep: () => void;
   prevStep: () => void;
   attempts: number;
   hasFailed: boolean;
-  nextLevel: () => void;
+  jumpToLevel: (level: number) => void;
   handleInput: (index: number, value: string) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
-  constant: Record<number, boolean>;
+  readOnly: Record<number, boolean>;
 }
 
 interface Options {
@@ -52,32 +89,37 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState(1);
-  const [stepIndex, setStepIndex] = useState(1);
-  const [numElems, setNumElems] = useState(4);
+  const [level, setLevel] = useState<number>(0);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
 
+  // FIXME: All of these states should be put into one state. They all relate to the input.
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
-  const [constant, setConstant] = useState<Record<number, boolean>>({});
+  const [readOnly, setReadOnly] = useState<Record<number, boolean>>({});
 
   const inputCorrectSound = useAudio("shortSuccess.mp3");
   const nextLevelSound = useAudio("celebration.mp3");
   const wrongSound = useAudio("wrong.mp3");
 
   const [attempts, setAttempts] = useState(0);
-  
+
   const steps: Step[] = useMemo(
     () => generateSteps(generateArray(numElems, { min, max })),
-    [min, max]
+    [min, max, numElems]
   );
 
-  const curr = steps[stepIndex];
+  const currStep = steps[stepIndex];
 
   function handleInput(index: number, value: string) {
     setValues((prev) => ({ ...prev, [index]: value }));
     const answer = steps[stepIndex].value[index];
+
     const isCorrect = checkInput(value, answer.toString());
+    if (isCorrect) {
+      inputCorrectSound.play();
+    }
     setCorrect((prev) => ({
       ...prev,
       [index]: isCorrect,
@@ -85,57 +127,55 @@ export const GameProvider: React.FC = ({ children }) => {
   }
 
   function checkInput(value: string, target: string) {
-    if (value === target) {
-      inputCorrectSound.play();
-      return true;
-    } else {
-      return false;
-    }
+    // For now, just compare strings... but in the future, it'd be nice to parse the user input to compensate for spacing or different separators (spaces, periods, etc.)
+    return value === target;
   }
 
   function nextStep() {
     if (level === 0) {
-      if (stepIndex === steps.length - 1){
-        nextLevelSound.play();
-        nextLevel()
-      }
-      else if (stepIndex < steps.length - 1) {
+      if (stepIndex < steps.length - 1) {
         setStepIndex(stepIndex + 1);
       }
-    }
-    else{
-    // check if all inputs are correct
-    const isCorrect = curr.value.every(
-      (arr, index) => values[index] === arr.toString()
-    );
-
-    if (isCorrect) {
-      if (stepIndex === steps.length - 1){
-        nextLevelSound.play();
-        nextLevel()
-      }
-      else if (stepIndex < steps.length - 1) {
-        setStepIndex(stepIndex + 1);
-      }
-      // staying constant
-      let stayingConstant:any = {}
-      let readOnly:any = {}
-      for (let  i = 0; i < steps[stepIndex+1].value.length; i++){
-        if (steps[stepIndex].value.includes(steps[stepIndex+1].value[i])) {
-          stayingConstant[i] = steps[stepIndex+1].value[i].toString()
-          readOnly[i] = true
-        }
-      }
-      setValues(stayingConstant);
-      setConstant(readOnly);
-      // clear values
-      setCorrect({});
     } else {
-      // not correct
-      wrongSound.play();
-      setAttempts(attempts + 1);
+      // check if all inputs are correct
+      const isCorrect = currStep.value.every((arr, index) =>
+        checkInput(values[index], arr.toString())
+      );
+
+      if (isCorrect) {
+        if (stepIndex === steps.length - 1) {
+          nextLevelSound.play();
+        } else if (stepIndex < steps.length - 1) {
+          setStepIndex(stepIndex + 1);
+        }
+
+        // determine which input's should remain constant for the next step
+        const persistentValues = steps[stepIndex + 1].value.reduce<
+          Record<number, string>
+        >((acc, val, index) => {
+          if (steps[stepIndex].value.includes(val)) {
+            acc[index] = val.toString();
+            return acc;
+          }
+          return acc;
+        }, {});
+
+        setValues(persistentValues);
+
+        // all of the persistent values should be read only
+        setReadOnly(
+          Object.keys(persistentValues).reduce((accumulator, key) => {
+            return { ...accumulator, [key]: true };
+          }, {})
+        );
+
+        setCorrect({});
+      } else {
+        // not correct
+        wrongSound.play();
+        setAttempts(attempts + 1);
+      }
     }
-  }
   }
 
   function prevStep() {
@@ -144,29 +184,13 @@ export const GameProvider: React.FC = ({ children }) => {
     }
   }
 
-  function nextLevel() {
-    //setLevel(level + 1);
-    if (level === 0) {
-      setStepIndex(0);
-      setNumElems(10);
-      setMinMax([1, 20]);
-    } else if (level === 1) {
-      setStepIndex(1);
-      setNumElems(10);
-      setMinMax([1, 20]);
-    } else if (level === 2) {
-      setStepIndex(1);
-      setNumElems(10);
-      setMinMax([1, 20]);
-    } else if (level === 3) {
-      setStepIndex(1);
-      setNumElems(20);
-      setMinMax([1, 50]);
-    } else if (level === 4) {
-      setStepIndex(1);
-      setNumElems(50);
-      setMinMax([1, 100]);
-    }
+  function jumpToLevel(dest: number) {
+    const { start, nums, min, max } = LEVELS[dest];
+    setStepIndex(start);
+    setNumElems(nums);
+    setMinMax([min, max]);
+    setLevel(dest);
+    setAttempts(0);
   }
 
   return (
@@ -177,14 +201,14 @@ export const GameProvider: React.FC = ({ children }) => {
         steps,
         nextStep,
         prevStep,
-        curr,
+        currStep,
         attempts,
         hasFailed: attempts === ATTEMPTS,
-        nextLevel,
         handleInput,
+        jumpToLevel,
         values,
         correct,
-        constant,
+        readOnly,
       }}
     >
       {children}
