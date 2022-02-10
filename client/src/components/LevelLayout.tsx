@@ -5,6 +5,14 @@ import {
   Flex,
   Heading,
   Spacer,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
@@ -22,9 +30,11 @@ const LevelLayout: React.FC<Props> = ({
   headingText,
   showInstructions,
   showInput,
-  children,
+  children
 }) => {
   const game = useGame();
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Box h="100vh">
@@ -50,6 +60,17 @@ const LevelLayout: React.FC<Props> = ({
         {showInput && <StepValidation />}
         {children}
       </Container>
+      <Button onClick={onOpen}>Open Drawer</Button>
+      <Modal isOpen={game.hasFailed} onClose={onClose}>
+      <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Modal Title</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <p>hi</p>
+          </ModalBody>
+          </ModalContent>
+      </Modal>
     </Box>
   );
 };
