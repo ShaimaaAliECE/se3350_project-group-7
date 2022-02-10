@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, TabList, Tab, TabPanels, TabPanel, Box, Flex, Button } from "@chakra-ui/react";
+import { Tabs, TabList, Tab, TabPanels, TabPanel, Spacer, Flex, Button } from "@chakra-ui/react";
 import Level1 from "@/components/Level1";
 import Level2 from "@/components/Level2";
 import Level3 from "@/components/Level3";
@@ -23,7 +23,7 @@ const Header = () => {
   }
   return (
       <Tabs>
-        <Box bg="gray.200" w="100%" position="sticky" zIndex="1" p={4}>
+        <Flex bg="gray.200" w="100%" position="sticky" zIndex="1" p={4}>
           <TabList>
             <Tab onClick={() => game.jumpToLevel(0)}>Level 1</Tab>
             <Tab onClick={() => game.jumpToLevel(1)}>Level 2</Tab>
@@ -31,8 +31,9 @@ const Header = () => {
             <Tab onClick={() => game.jumpToLevel(3)}>Level 4</Tab>
             <Tab onClick={() => game.jumpToLevel(4)}>Level 5</Tab>
           </TabList>
-          <Button onClick={routeChange}>hello</Button>
-        </Box>
+          <Spacer /> 
+          <Button colorScheme='red'  onClick={routeChange}>Quit</Button>
+        </Flex>
         <TabPanels>
           <TabPanel>
             <Level1 />
