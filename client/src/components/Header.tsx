@@ -16,7 +16,7 @@ const Header = () => {
   // TODO: Remove this hook once next level is properly implemented.
   // Tabs should not be clickable, this is only for demo purpose.
   const game = useGame();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const routeChange = () => {
     let path = "../";
     navigate(path);
