@@ -150,13 +150,15 @@ export const GameProvider: React.FC = ({ children }) => {
         }
 
         // determine which input's should remain constant for the next step
-        const persistentValues: Record<number, string> = {};
-
-        steps[stepIndex + 1].value.map((subArr, index) => {
-          if (steps[stepIndex].value.includes(subArr)) {
-            persistentValues[index] = subArr.toString();
+        const persistentValues = steps[stepIndex + 1].value.reduce<
+          Record<number, string>
+        >((acc, val, index) => {
+          if (steps[stepIndex].value.includes(val)) {
+            acc[index] = val.toString();
+            return acc;
           }
-        });
+          return acc;
+        }, {});
 
         setValues(persistentValues);
 
