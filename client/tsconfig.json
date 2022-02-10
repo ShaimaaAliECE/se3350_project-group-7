@@ -15,7 +15,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/context/*": ["context/*"],
+      "@/lib/*": ["lib/*"],
+      "@/hooks/*": ["hooks/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]
