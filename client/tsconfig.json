@@ -21,7 +21,8 @@
       "@/components*": ["components*"],
       "@/context*": ["context*"],
       "@/lib*": ["lib*"],
-      "@/hooks*": ["hooks*"]
+      "@/hooks*": ["hooks*"],
+      "@/constants": ["constants"]
     }
   },
   "include": ["**/*.tsx", "**/*.ts"],
