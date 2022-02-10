@@ -21,6 +21,7 @@ import { TOOLBAR_HEIGHT } from "@/constants";
 import BoxesContainer from "./BoxesContainer";
 import StepValidation from "./StepValidation";
 import Instructions from "./Instructions";
+import { OPTIONS } from "@/constants";
 
 export type Props = {
   headingText: string;
@@ -37,6 +38,7 @@ const LevelLayout: React.FC<Props> = ({
   const game = useGame();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selection, setSelection] = useState<number>(0);
 
   return (
     <Box h="100vh">
@@ -68,6 +70,16 @@ const LevelLayout: React.FC<Props> = ({
         <ModalContent>
           <ModalHeader>You messed up too many times</ModalHeader>
           <ModalBody>
+          <Select
+                onChange={(e) => setSelection(parseInt(e.target.value))}
+                placeholder="Select a Sorting Algorithm"
+              >
+                {OPTIONS.map(({ value, name }, index) => (
+                  <option value={index} key={value}>
+                    {name}
+                  </option>
+                ))}
+              </Select>
           </ModalBody>
           </ModalContent>
       </Modal>
