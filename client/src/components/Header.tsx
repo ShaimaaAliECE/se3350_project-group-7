@@ -15,7 +15,7 @@ const Header = () => {
   // Tabs should not be clickable, this is only for demo purpose.
   const game = useGame();
   return (
-    <Tabs>
+    <Tabs index={game.level}>
       <Box bg="gray.200" w="100%" position="sticky" zIndex="1" p={4}>
         <TabList>
           <Tab>Home</Tab>

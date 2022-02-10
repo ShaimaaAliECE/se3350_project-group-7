@@ -7,6 +7,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useGame } from "@/context/GameContext";
 
 const OPTIONS = [{ value: "merge-sort", name: "Merge Sort" }];
 
@@ -17,8 +18,11 @@ const Home: React.FC<HomeProps> = ({}) => {
 
   const [selection, setSelection] = useState<number>(0);
 
+  const game = useGame();
+
   function start() {
-    navigate(OPTIONS[selection].value);
+    //navigate(OPTIONS[selection].value);
+    game.jumpToLevel(1);
   }
 
   return (
