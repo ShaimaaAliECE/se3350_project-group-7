@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Flex, Button, Container, Input, Text } from "@chakra-ui/react";
 import Boxes from "./Boxes";
 import { useGame } from "../context/GameContext";

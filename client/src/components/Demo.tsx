@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Box, Flex, Button, Spacer, Text, Center } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import Boxes from "./Boxes";
@@ -8,7 +8,7 @@ const TOOLBAR_HEIGHT = "64px";
 
 export type DemoProps = {};
 
-const Demo: React.FC<DemoProps> = ({}) => {
+const Demo: React.FC<DemoProps> = () => {
   const game = useGame();
   const endElemRef = useRef<HTMLDivElement>(null);
 

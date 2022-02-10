@@ -9,7 +9,7 @@ export default function useAudio(url: string) {
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();
-  }, [playing]);
+  }, [playing, audio]);
 
   function play() {
     audio.play();
