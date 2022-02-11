@@ -1,6 +1,5 @@
 import express from "express";
 import morgan from "morgan";
-import cors from "cors";
 import path from "path";
 import cookieParser from "cookie-parser";
 import fs from "fs";
@@ -8,18 +7,6 @@ import pino from "express-pino-logger";
 import routes from "./routes";
 
 const app = express();
-
-app.use(
-  cors({
-    origin: function (_, callback) {
-      // No error, 'true' allows CORS for whatever the request origin is
-      callback(null, true);
-    },
-    // Allow the usage of cookies, authorization headers, TLS client certificates from server side
-    // Gives browser permission to expose the response to requests with credentials to frontend JavaScript code
-    credentials: true,
-  })
-);
 
 // Log requests to the server and save to file
 app.use(
