@@ -31,7 +31,7 @@ const Header = () => {
   };
 
   return (
-    <Tabs index={game.level + 1}>
+    <Tabs index={game.level}>
       <Flex bg="gray.200" w="100%" position="sticky" zIndex="1" p={4}>
         <TabList>
           <Tab onClick={() => game.jumpToLevel(0)}>Level 1</Tab>
