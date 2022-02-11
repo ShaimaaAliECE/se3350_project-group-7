@@ -202,10 +202,7 @@ export const GameProvider: React.FC = ({ children }) => {
   }
 
   function hasSeenLevel(lastLevel: number) {
-      if (lastLevel < maxLevelSeen) {
-          return false;
-      }
-      return true;
+      return lastLevel < maxLevelSeen;
     }
 
   function jumpToLevel(dest: number) {
