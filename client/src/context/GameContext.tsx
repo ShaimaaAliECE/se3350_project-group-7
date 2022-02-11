@@ -47,6 +47,7 @@ interface ContextType {
   currStep: Step;
   stepIndex: number;
   level: number;
+  maxLevelSeen: number;
   nextStep: () => void;
   prevStep: () => void;
   attempts: number;
@@ -54,7 +55,7 @@ interface ContextType {
   jumpToLevel: (level: number) => void;
   handleInput: (index: number, value: string) => void;
   restartLevel: () => void;
-  hasSeenLevel: () => boolean;
+  hasSeenLevel: (lastLevel: number) => boolean;
   values: Record<number, string>;
   correct: Record<number, boolean>;
   readOnly: Record<number, boolean>;
@@ -95,6 +96,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const [stepIndex, setStepIndex] = useState(0);
   const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
+  const [maxLevelSeen, setMaxLevelSeen] = useState<number>(0);
 
   // FIXME: All of these states should be put into one state. They all relate to the input.
   const [values, setValues] = useState<Record<number, string>>({});
@@ -199,21 +201,12 @@ export const GameProvider: React.FC = ({ children }) => {
     setCorrect({});
   }
 
-  function hasSeenLevel() {
-    const maxLevelSeen = 1;
-    let pass:boolean = true;
-    if (level < maxLevelSeen) {
-      pass = true;
+  function hasSeenLevel(lastLevel: number) {
+      if (lastLevel < maxLevelSeen) {
+          return false;
+      }
+      return true;
     }
-    else if(level > maxLevelSeen) {
-      maxLevelSeen = level;
-      pass = true;
-    }
-    else {
-      pass = false;
-    }
-    return pass;
-  }
 
   function jumpToLevel(dest: number) {
     const { start, nums, min, max } = LEVELS[dest];
@@ -224,6 +217,9 @@ export const GameProvider: React.FC = ({ children }) => {
     setAttempts(0);
     setValues({});
     setCorrect({});
+    if (dest > maxLevelSeen) {
+        setMaxLevelSeen(dest);
+    }
   }
 
   return (
@@ -232,6 +228,7 @@ export const GameProvider: React.FC = ({ children }) => {
         level,
         stepIndex,
         steps,
+        maxLevelSeen,
         nextStep,
         prevStep,
         currStep,
