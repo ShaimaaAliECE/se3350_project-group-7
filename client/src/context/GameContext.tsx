@@ -92,11 +92,11 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState<number>(0);
+  const [level, setLevel] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
-  const [maxLevelSeen, setMaxLevelSeen] = useState<number>(0);
+  const [maxLevelSeen, setMaxLevelSeen] = useState(0);
 
   // FIXME: All of these states should be put into one state. They all relate to the input.
   const [values, setValues] = useState<Record<number, string>>({});
