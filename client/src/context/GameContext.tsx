@@ -53,6 +53,8 @@ interface ContextType {
   hasFailed: boolean;
   jumpToLevel: (level: number) => void;
   handleInput: (index: number, value: string) => void;
+  restartLevel: () => void;
+  hasSeenLevel: (level: number) => void;
   values: Record<number, string>;
   correct: Record<number, boolean>;
   readOnly: Record<number, boolean>;
@@ -190,6 +192,21 @@ export const GameProvider: React.FC = ({ children }) => {
     }
   }
 
+  function restartLevel() {
+    setStepIndex(0);
+    setAttempts(0);
+    setValues({});
+    setCorrect({});
+  }
+
+  function hasSeenLevel(level: number) {
+    const maxLevel=1;
+    if (level < maxLevel) {
+      level = maxLevel;
+    }
+    return level;
+  }
+
   function jumpToLevel(dest: number) {
     const { start, nums, min, max } = LEVELS[dest];
     setStepIndex(start);
@@ -214,6 +231,8 @@ export const GameProvider: React.FC = ({ children }) => {
         hasFailed: attempts === ATTEMPTS,
         handleInput,
         jumpToLevel,
+        restartLevel,
+        hasSeenLevel,
         values,
         correct,
         readOnly,
