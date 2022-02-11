@@ -35,10 +35,10 @@ const Header = () => {
       <Flex bg="gray.200" w="100%" position="sticky" zIndex="1" p={4}>
         <TabList>
           <Tab onClick={() => game.jumpToLevel(0)}>Level 1</Tab>
-          <Tab isDisabled={game.level < 1} onClick={() => game.jumpToLevel(1)}>Level 2</Tab>
-          <Tab isDisabled={game.level < 2} onClick={() => game.jumpToLevel(2)}>Level 3</Tab>
-          <Tab isDisabled={game.level < 3} onClick={() => game.jumpToLevel(3)}>Level 4</Tab>
-          <Tab isDisabled={game.level < 4} onClick={() => game.jumpToLevel(4)}>Level 5</Tab>
+          <Tab isDisabled={game.hasSeenLevel()} onClick={() => game.jumpToLevel(1)}>Level 2</Tab>
+          <Tab isDisabled={game.hasSeenLevel()} onClick={() => game.jumpToLevel(2)}>Level 3</Tab>
+          <Tab isDisabled={game.hasSeenLevel()} onClick={() => game.jumpToLevel(3)}>Level 4</Tab>
+          <Tab isDisabled={game.hasSeenLevel()} onClick={() => game.jumpToLevel(4)}>Level 5</Tab>
         </TabList>
         <Spacer />
         <Button onClick={game.restartLevel} mr={4}>Restart</Button>

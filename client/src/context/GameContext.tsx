@@ -54,7 +54,7 @@ interface ContextType {
   jumpToLevel: (level: number) => void;
   handleInput: (index: number, value: string) => void;
   restartLevel: () => void;
-  hasSeenLevel: (level: number) => void;
+  hasSeenLevel: () => boolean;
   values: Record<number, string>;
   correct: Record<number, boolean>;
   readOnly: Record<number, boolean>;
@@ -199,12 +199,20 @@ export const GameProvider: React.FC = ({ children }) => {
     setCorrect({});
   }
 
-  function hasSeenLevel(level: number) {
-    const maxLevel=1;
-    if (level < maxLevel) {
-      level = maxLevel;
+  function hasSeenLevel() {
+    const maxLevelSeen = 1;
+    let pass:boolean = true;
+    if (level < maxLevelSeen) {
+      pass = true;
     }
-    return level;
+    else if(level > maxLevelSeen) {
+      maxLevelSeen = level;
+      pass = true;
+    }
+    else {
+      pass = false;
+    }
+    return pass;
   }
 
   function jumpToLevel(dest: number) {
