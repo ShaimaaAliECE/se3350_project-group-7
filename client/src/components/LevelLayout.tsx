@@ -11,6 +11,7 @@ import { TOOLBAR_HEIGHT } from "@/constants";
 import BoxesContainer from "./BoxesContainer";
 import StepValidation from "./StepValidation";
 import Instructions from "./Instructions";
+import Timer from "@/components/Timer";
 
 export type Props = {
   headingText: string;
@@ -33,6 +34,9 @@ const LevelLayout: React.FC<Props> = ({
           {headingText}
         </Heading>
         <Spacer />
+        <Heading as="h1" fontSize="lg" mr={4} mt={2}>
+          <Timer />
+        </Heading>
         <Button mr={4} onClick={game.prevStep}>
           Previous Step
         </Button>
