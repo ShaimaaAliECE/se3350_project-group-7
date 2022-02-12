@@ -7,7 +7,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
 import BoxesContainer from "./BoxesContainer";
@@ -44,8 +44,10 @@ const LevelLayout: React.FC<Props> = ({
           <Button onClick={() => game.jumpToLevel(game.level + 1)}>
             Next Level
           </Button>
-        ) : game.stepIndex !== game.steps.length - 1 && (
-          <Button onClick={game.nextStep}>Next Step</Button>
+        ) : (
+          game.stepIndex !== game.steps.length - 1 && (
+            <Button onClick={game.nextStep}>Next Step</Button>
+          )
         )}
       </Flex>
       <Container centerContent>
@@ -56,7 +58,14 @@ const LevelLayout: React.FC<Props> = ({
       </Container>
       <Flex>
         <Spacer />
-        <Box display="flex" alignItems="center" bg="gray.200" p={4} borderWidth='1px' borderRadius='lg'>
+        <Box
+          display="flex"
+          alignItems="center"
+          bg="gray.200"
+          p={4}
+          borderWidth="1px"
+          borderRadius="lg"
+        >
           {showAttempts && <Text>Remaining Attempts: {game.attempts} /3 </Text>}
         </Box>
       </Flex>
