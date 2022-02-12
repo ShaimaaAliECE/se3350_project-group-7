@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   Spacer,
+  Text,
 } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
@@ -16,12 +17,14 @@ export type Props = {
   headingText: string;
   showInstructions: boolean;
   showInput: boolean;
+  showAttempts: boolean;
 };
 
 const LevelLayout: React.FC<Props> = ({
   headingText,
   showInstructions,
   showInput,
+  showAttempts,
   children,
 }) => {
   const game = useGame();
@@ -50,6 +53,7 @@ const LevelLayout: React.FC<Props> = ({
         {showInput && <StepValidation />}
         {children}
       </Container>
+      {showAttempts && <Text>Remaining Attempts: {game.attempts} /3 </Text>}
     </Box>
   );
 };

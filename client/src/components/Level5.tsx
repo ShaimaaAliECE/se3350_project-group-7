@@ -7,6 +7,7 @@ const Level5 = () => {
       headingText="Level 5: Extra-Large User-Driven Sort"
       showInstructions={false}
       showInput={true}
+      showAttempts={true}
     />
   );
 };
