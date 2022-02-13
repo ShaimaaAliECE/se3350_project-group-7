@@ -129,7 +129,7 @@ const LevelLayout: React.FC<Props> = ({
                   Custom Restart
                 </Button>
                 <Spacer />
-                <Button colorScheme="blue" mr={1} variant="outline">
+                <Button onClick={() => {game.restartLevel()}} colorScheme="blue" mr={1} variant="outline">
                   Restart
                 </Button>
                 <Button colorScheme="red" mr={3} onClick={()=>{navigate("/")}}>
