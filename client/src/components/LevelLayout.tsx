@@ -35,7 +35,13 @@ const LevelLayout: React.FC<Props> = ({
           {headingText}
         </Heading>
         <Spacer />
-        <Text fontFamily="monospace" fontSize="lg" fontWeight="bold" mr={4} mt={2}>
+        <Text
+          fontFamily="monospace"
+          fontSize="lg"
+          fontWeight="bold"
+          mr={4}
+          mt={2}
+        >
           <Timer />
         </Text>
         <Button mr={4} onClick={game.prevStep}>
@@ -45,8 +51,10 @@ const LevelLayout: React.FC<Props> = ({
           <Button onClick={() => game.jumpToLevel(game.level + 1)}>
             Next Level
           </Button>
-        ) : game.stepIndex !== game.steps.length - 1 && (
-          <Button onClick={game.nextStep}>Next Step</Button>
+        ) : (
+          game.stepIndex !== game.steps.length - 1 && (
+            <Button onClick={game.nextStep}>Next Step</Button>
+          )
         )}
       </Flex>
       <Container centerContent>
