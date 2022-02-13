@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useGame } from "@/context/GameContext";
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 
-export type TimerProps = {};
+export type TimerProps = {} & BoxProps;
 
-const Timer: React.FC<TimerProps> = () => {
+const Timer: React.FC<TimerProps> = ({ ...rest }) => {
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const game = useGame();
 
@@ -34,9 +34,9 @@ const Timer: React.FC<TimerProps> = () => {
       1000
     );
     return () => clearInterval(timerId);
-  }, [setSecondsElapsed]);
+  }, []);
 
-  return <Box>{time}</Box>;
+  return <Box {...rest}>{time}</Box>;
 };
 
 export default Timer;
