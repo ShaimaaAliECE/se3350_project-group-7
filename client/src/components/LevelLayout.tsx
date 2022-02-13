@@ -40,6 +40,7 @@ const LevelLayout: React.FC<Props> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selection, setSelection] = useState<number>(0);
+  const [customRestart, setCustomRestart] = useState<boolean>(false);
 
   return (
     <Box h="100vh">
@@ -65,6 +66,7 @@ const LevelLayout: React.FC<Props> = ({
         {showInput && <StepValidation />}
         {children}
       </Container>
+
       <Modal isOpen={game.hasFailed} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -74,30 +76,51 @@ const LevelLayout: React.FC<Props> = ({
               You used all 3 of your attempts. Do you want to restart this
               level, try a previous level, or quit the game?
             </Text>
-            <Select placeholder="Select Level">
-              <option value="option1">Level 1</option>
-              <option value="option2">Level 2</option>
-              <option value="option3">Level 3</option>
-            </Select>
-            <Button>Go to Level</Button>
-            <Select
-              onChange={(e) => setSelection(parseInt(e.target.value))}
-              placeholder="Select a Sorting Algorithm"
-            >
-              {OPTIONS.map(({ value, name }, index) => (
-                <option value={index} key={value}>
-                  {name}
-                </option>
-              ))}
-            </Select>
+            {customRestart && (
+              <div>
+                <Select
+                  marginTop={4}
+                  onChange={(e) => setSelection(parseInt(e.target.value))}
+                  placeholder="Select a Sorting Algorithm"
+                >
+                  {OPTIONS.map(({ value, name }, index) => (
+                    <option value={index} key={value}>
+                      {name}
+                    </option>
+                  ))}
+                </Select>
+                <Select placeholder="Select Level" marginTop={2}>
+                  <option value="option1">Level 1</option>
+                  <option value="option2">Level 2</option>
+                  <option value="option3">Level 3</option>
+                </Select>
+              </div>
+            )}
           </ModalBody>
           <ModalFooter>
-            <Button variant='ghost'>Custom Restart</Button> 
-            <Spacer />
-            <Button colorScheme="blue" mr={1} variant='outline'>Restart</Button>
-            <Button colorScheme="red" mr={3} onClick={onClose}>
-              Quit
-            </Button>
+            {customRestart ? (
+              <Flex width={'100%'}>
+                <Button variant="ghost">Easy Restart</Button>
+                <Spacer />
+                <Button colorScheme="blue" mr={1} variant="outline">
+                  Go to level
+                </Button>
+                <Button colorScheme="red" mr={3} onClick={onClose}>
+                  Quit
+                </Button>
+              </Flex>
+            ) : (
+              <Flex width={'100%'}>
+                <Button variant="ghost">Custom Restart</Button>
+                <Spacer />
+                <Button colorScheme="blue" mr={1} variant="outline">
+                  Restart
+                </Button>
+                <Button colorScheme="red" mr={3} onClick={onClose}>
+                  Quit
+                </Button>
+              </Flex>
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
