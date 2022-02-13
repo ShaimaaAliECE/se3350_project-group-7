@@ -99,8 +99,15 @@ const LevelLayout: React.FC<Props> = ({
           </ModalBody>
           <ModalFooter>
             {customRestart ? (
-              <Flex width={'100%'}>
-                <Button onClick={() => {setCustomRestart(false)}} variant="ghost">Easy Restart</Button>
+              <Flex width={"100%"}>
+                <Button
+                  onClick={() => {
+                    setCustomRestart(false);
+                  }}
+                  variant="ghost"
+                >
+                  Easy Restart
+                </Button>
                 <Spacer />
                 <Button colorScheme="blue" mr={1} variant="outline">
                   Go to level
@@ -110,8 +117,15 @@ const LevelLayout: React.FC<Props> = ({
                 </Button>
               </Flex>
             ) : (
-              <Flex width={'100%'}>
-                <Button onClick={() => {setCustomRestart(true)}} variant="ghost">Custom Restart</Button>
+              <Flex width={"100%"}>
+                <Button
+                  onClick={() => {
+                    setCustomRestart(true);
+                  }}
+                  variant="ghost"
+                >
+                  Custom Restart
+                </Button>
                 <Spacer />
                 <Button colorScheme="blue" mr={1} variant="outline">
                   Restart
