@@ -38,7 +38,7 @@ const Timer:React.FC<TimerProps> = ({ ...rest }) => {
     useEffect(() => {
         const timerId = setInterval(() => tick(), 1000);
         return () => clearInterval(timerId);
-    });
+    }, [secondsElapsed]);
 
     return (
         <Box { ...rest }>
