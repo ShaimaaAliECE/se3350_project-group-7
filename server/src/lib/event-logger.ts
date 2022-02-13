@@ -18,8 +18,49 @@ export function log(req: Request, action: string) {
   };
   if (!fs.existsSync(filepath)) {
     fs.mkdirSync(folderpath, { recursive: true });
-    fs.writeFileSync(filepath, "");
+    fs.writeFileSync(filepath, "\n");
   }
   const data = `${JSON.stringify(event)}\n`;
   fs.appendFileSync(filepath, data);
 }
+
+export interface GetOptions {
+  start?: Date;
+  end?: Date;
+  actions?: string[];
+}
+
+function getLogs(options?: GetOptions) {
+  const { start, end, actions } = options || {};
+
+  const rawData = fs.readFileSync(filepath, "utf-8");
+  const lines = rawData
+    .split("\n")
+    .filter((line) => !!line)
+    .map((line) => JSON.parse(line))
+    .filter((log) => {
+      const timestamp = new Date(parseInt(log.timestamp));
+      if (start && timestamp.valueOf() < start.valueOf()) {
+        return false;
+      }
+      if (end && timestamp.valueOf() > end.valueOf()) {
+        return false;
+      }
+      if (actions && actions.length > 0 && !actions.includes(log.action)) {
+        return false;
+      }
+      return true;
+    });
+  return lines;
+}
+
+export function get(req: Request, options?: GetOptions) {
+  const id = getId(req);
+  const logs = getLogs(options).filter((log) => log.id === id);
+  return logs;
+}
+
+export default {
+  get,
+  log,
+};
