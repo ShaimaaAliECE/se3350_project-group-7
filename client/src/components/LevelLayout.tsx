@@ -5,6 +5,7 @@ import {
   Flex,
   Heading,
   Spacer,
+  Text,
 } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
@@ -34,9 +35,9 @@ const LevelLayout: React.FC<Props> = ({
           {headingText}
         </Heading>
         <Spacer />
-        <Heading as="h1" fontSize="lg" mr={4} mt={2}>
+        <Text fontFamily="monospace" fontSize="lg" fontWeight="bold" mr={4} mt={2}>
           <Timer />
-        </Heading>
+        </Text>
         <Button mr={4} onClick={game.prevStep}>
           Previous Step
         </Button>

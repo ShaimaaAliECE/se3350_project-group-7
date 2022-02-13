@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { useGame } from "@/context/GameContext";
+import { Box } from "@chakra-ui/react";
 
-export default function Timer() {
+export type TimerProps = {};
+
+const Timer:React.FC<TimerProps> = ({ ...rest }) => {
     
-    const { hours, minutes, seconds} = {hours: 0, minutes: 0, seconds: 0};
-    const [[hrs, mins, secs], setTime] = useState([hours, minutes, seconds]);
+    const [secondsElapsed, setSecondsElapsed] = useState(0);
     const game = useGame();
 
     const tick = () => {
-        if (mins === 59 && secs === 59) {
-            setTime([hrs + 1, 0, 0]);
-        } else if (mins !== 59 && secs === 59) {
-            setTime([hrs, mins + 1, 0]);
-        } else {
-            setTime([hrs, mins, secs + 1]);
-        }
+        setSecondsElapsed(secondsElapsed + 1);
     };
 
+    function getTime() {
+        let totalSeconds = secondsElapsed;
+        let hrs = Math.floor(totalSeconds / 3600);
+        totalSeconds %= 3600;
+        let mins = Math.floor(totalSeconds / 60);
+        let secs = totalSeconds % 60;
+
+        return (
+            `${hrs.toString().padStart(2, '0')}:${mins
+                .toString()
+                .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+        );
+    }
+
     function reset() {
-        setTime([0, 0, 0]);
+        setSecondsElapsed(0);
     }
 
     useEffect(() => {
@@ -31,10 +41,10 @@ export default function Timer() {
     });
 
     return (
-        <div>
-            {`${hrs.toString().padStart(2, '0')}:${mins
-            .toString()
-            .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`}
-        </div>
+        <Box { ...rest }>
+            {getTime()}
+        </Box>
     );
 }
+
+export default Timer;
