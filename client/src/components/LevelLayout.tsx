@@ -57,14 +57,15 @@ const LevelLayout: React.FC<Props> = ({
       </Container>
       <Flex>
         <Spacer />
-        <Box
-          alignItems="center"
-          bg="gray.200"
-          p={4}
-          borderRadius="lg"
-        >
-          {showAttempts && <Text>Remaining Attempts: {game.attempts}/3 </Text>}
-        </Box>
+        {showAttempts &&  
+          <Box
+            alignItems="center"
+            bg="gray.200"
+            p={4}
+            borderRadius="lg"
+          >
+           <Text>Remaining Attempts: {game.attempts}/3 </Text>
+        </Box>}
       </Flex>
     </Box>
   );
