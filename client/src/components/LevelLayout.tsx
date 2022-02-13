@@ -39,7 +39,8 @@ const LevelLayout: React.FC<Props> = ({
 }) => {
   const game = useGame();
 
-  const [selection, setSelection] = useState<number>(0);
+  const [algo, setAlgo] = useState<number>(0);
+  const [level, setLevel] = useState<number>(0);
   const [customRestart, setCustomRestart] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -96,7 +97,7 @@ const LevelLayout: React.FC<Props> = ({
               <div>
                 <Select
                   marginTop={4}
-                  onChange={(e) => setSelection(parseInt(e.target.value))}
+                  onChange={(e) => setAlgo(parseInt(e.target.value))}
                   placeholder="Select a Sorting Algorithm"
                 >
                   {OPTIONS.map(({ value, name }, index) => (
@@ -105,7 +106,7 @@ const LevelLayout: React.FC<Props> = ({
                     </option>
                   ))}
                 </Select>
-                <Select placeholder="Select Level" marginTop={2}>
+                <Select onChange={(e) => setLevel(parseInt(e.target.value))} placeholder="Select Level" marginTop={2}>
                   {generateLevels()}
                 </Select>
               </div>
@@ -123,7 +124,9 @@ const LevelLayout: React.FC<Props> = ({
                   Easy Restart
                 </Button>
                 <Spacer />
-                <Button colorScheme="blue" mr={1} variant="outline">
+                <Button onClick={() => {
+                  game.jumpToLevel(level)
+                }} colorScheme="blue" mr={1} variant="outline">
                   Go to level
                 </Button>
                 <Button
