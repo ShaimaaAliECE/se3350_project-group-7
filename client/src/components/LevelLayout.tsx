@@ -59,7 +59,6 @@ const LevelLayout: React.FC<Props> = ({
       <Flex>
         <Spacer />
         <Box
-          display="flex"
           alignItems="center"
           bg="gray.200"
           p={4}
