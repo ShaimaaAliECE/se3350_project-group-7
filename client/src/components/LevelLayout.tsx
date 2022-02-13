@@ -43,6 +43,14 @@ const LevelLayout: React.FC<Props> = ({
   const [customRestart, setCustomRestart] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  function generateLevels() {
+    let items = [];
+    for (var i = 0; i <= game.maxLevelSeen; i++) {
+      items.push(<option value={i}>Level {i + 1}</option>);
+    }
+    return items;
+  }
+
   return (
     <Box h="100vh">
       <Flex bg="white.100" h={TOOLBAR_HEIGHT} p={4}>
@@ -57,8 +65,10 @@ const LevelLayout: React.FC<Props> = ({
           <Button onClick={() => game.jumpToLevel(game.level + 1)}>
             Next Level
           </Button>
-        ) : game.stepIndex !== game.steps.length - 1 && (
-          <Button onClick={game.nextStep}>Next Step</Button>
+        ) : (
+          game.stepIndex !== game.steps.length - 1 && (
+            <Button onClick={game.nextStep}>Next Step</Button>
+          )
         )}
       </Flex>
       <Container centerContent>
@@ -68,7 +78,12 @@ const LevelLayout: React.FC<Props> = ({
         {children}
       </Container>
 
-      <Modal isOpen={game.hasFailed} onClose={()=>{navigate("/")}}>
+      <Modal
+        isOpen={game.hasFailed}
+        onClose={() => {
+          navigate("/");
+        }}
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>You messed up too many times</ModalHeader>
@@ -91,9 +106,7 @@ const LevelLayout: React.FC<Props> = ({
                   ))}
                 </Select>
                 <Select placeholder="Select Level" marginTop={2}>
-                  <option value="option1">Level 1</option>
-                  <option value="option2">Level 2</option>
-                  <option value="option3">Level 3</option>
+                  {generateLevels()}
                 </Select>
               </div>
             )}
@@ -113,7 +126,13 @@ const LevelLayout: React.FC<Props> = ({
                 <Button colorScheme="blue" mr={1} variant="outline">
                   Go to level
                 </Button>
-                <Button colorScheme="red" mr={3} onClick={()=>{navigate("/")}}>
+                <Button
+                  colorScheme="red"
+                  mr={3}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
                   Quit
                 </Button>
               </Flex>
@@ -128,10 +147,23 @@ const LevelLayout: React.FC<Props> = ({
                   Custom Restart
                 </Button>
                 <Spacer />
-                <Button onClick={() => {game.restartLevel()}} colorScheme="blue" mr={1} variant="outline">
+                <Button
+                  onClick={() => {
+                    game.restartLevel();
+                  }}
+                  colorScheme="blue"
+                  mr={1}
+                  variant="outline"
+                >
                   Restart
                 </Button>
-                <Button colorScheme="red" mr={3} onClick={()=>{navigate("/")}}>
+                <Button
+                  colorScheme="red"
+                  mr={3}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
                   Quit
                 </Button>
               </Flex>
