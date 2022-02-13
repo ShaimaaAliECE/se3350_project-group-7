@@ -39,7 +39,6 @@ const LevelLayout: React.FC<Props> = ({
 }) => {
   const game = useGame();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selection, setSelection] = useState<number>(0);
   const [customRestart, setCustomRestart] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -69,7 +68,7 @@ const LevelLayout: React.FC<Props> = ({
         {children}
       </Container>
 
-      <Modal isOpen={game.hasFailed} onClose={onClose}>
+      <Modal isOpen={game.hasFailed} onClose={()=>{navigate("/")}}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>You messed up too many times</ModalHeader>

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Button, Select, VStack, Center, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-
-const OPTIONS = [{ value: "game", name: "Merge Sort" }];
+import { OPTIONS } from "@/constants";
 
 export type HomeProps = {};
 
