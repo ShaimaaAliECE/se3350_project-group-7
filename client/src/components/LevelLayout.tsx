@@ -7,7 +7,6 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import { extendTheme } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
 import BoxesContainer from "./BoxesContainer";
@@ -62,10 +61,9 @@ const LevelLayout: React.FC<Props> = ({
           alignItems="center"
           bg="gray.200"
           p={4}
-          borderWidth="1px"
           borderRadius="lg"
         >
-          {showAttempts && <Text>Remaining Attempts: {game.attempts} /3 </Text>}
+          {showAttempts && <Text>Remaining Attempts: {game.attempts}/3 </Text>}
         </Box>
       </Flex>
     </Box>
