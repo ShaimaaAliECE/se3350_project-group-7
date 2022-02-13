@@ -56,7 +56,7 @@ const LevelLayout: React.FC<Props> = ({
           <Button onClick={() => game.jumpToLevel(game.level + 1)}>
             Next Level
           </Button>
-        ) : (
+        ) : game.stepIndex !== game.steps.length - 1 && (
           <Button onClick={game.nextStep}>Next Step</Button>
         )}
       </Flex>

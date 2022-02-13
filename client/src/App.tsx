@@ -3,6 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GameProvider } from "./context/GameContext";
 import SortingGame from "./components/SortingGame";
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
       <GameProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<SortingGame />} />
+            <Route path="/game" element={<SortingGame />} />
+            <Route path="/" element={<Home />} />
           </Routes>
         </Router>
       </GameProvider>

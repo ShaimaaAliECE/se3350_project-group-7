@@ -47,12 +47,15 @@ interface ContextType {
   currStep: Step;
   stepIndex: number;
   level: number;
+  maxLevelSeen: number;
   nextStep: () => void;
   prevStep: () => void;
   attempts: number;
   hasFailed: boolean;
   jumpToLevel: (level: number) => void;
   handleInput: (index: number, value: string) => void;
+  restartLevel: () => void;
+  hasSeenLevel: (lastLevel: number) => boolean;
   values: Record<number, string>;
   correct: Record<number, boolean>;
   readOnly: Record<number, boolean>;
@@ -89,10 +92,11 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState<number>(0);
+  const [level, setLevel] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [numElems, setNumElems] = useState(10);
   const [[min, max], setMinMax] = useState([0, 20]);
+  const [maxLevelSeen, setMaxLevelSeen] = useState(0);
 
   // FIXME: All of these states should be put into one state. They all relate to the input.
   const [values, setValues] = useState<Record<number, string>>({});
@@ -190,6 +194,17 @@ export const GameProvider: React.FC = ({ children }) => {
     }
   }
 
+  function restartLevel() {
+    setStepIndex(0);
+    setAttempts(0);
+    setValues({});
+    setCorrect({});
+  }
+
+  function hasSeenLevel(lastLevel: number) {
+      return lastLevel < maxLevelSeen;
+    }
+
   function jumpToLevel(dest: number) {
     const { start, nums, min, max } = LEVELS[dest];
     setStepIndex(start);
@@ -197,6 +212,11 @@ export const GameProvider: React.FC = ({ children }) => {
     setMinMax([min, max]);
     setLevel(dest);
     setAttempts(0);
+    setValues({});
+    setCorrect({});
+    if (dest > maxLevelSeen) {
+        setMaxLevelSeen(dest);
+    }
   }
 
   return (
@@ -205,6 +225,7 @@ export const GameProvider: React.FC = ({ children }) => {
         level,
         stepIndex,
         steps,
+        maxLevelSeen,
         nextStep,
         prevStep,
         currStep,
@@ -212,6 +233,8 @@ export const GameProvider: React.FC = ({ children }) => {
         hasFailed: attempts === 1,
         handleInput,
         jumpToLevel,
+        restartLevel,
+        hasSeenLevel,
         values,
         correct,
         readOnly,
