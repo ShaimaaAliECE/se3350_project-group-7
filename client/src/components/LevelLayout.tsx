@@ -65,7 +65,6 @@ const LevelLayout: React.FC<Props> = ({
         {showInput && <StepValidation />}
         {children}
       </Container>
-      <Button onClick={onOpen}>Open Drawer</Button>
       <Modal isOpen={game.hasFailed} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -93,10 +92,12 @@ const LevelLayout: React.FC<Props> = ({
             </Select>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+            <Button variant='ghost'>Custom Restart</Button> 
+            <Spacer />
+            <Button colorScheme="blue" mr={1} variant='outline'>Restart</Button>
+            <Button colorScheme="red" mr={3} onClick={onClose}>
+              Quit
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
