@@ -64,7 +64,7 @@ const LevelLayout: React.FC<Props> = ({
             p={4}
             borderRadius="lg"
           >
-           <Text>Remaining Attempts: {game.attempts}/3 </Text>
+           <Text>Remaining Attempts: {3-game.attempts}/3 </Text>
         </Box>}
       </Flex>
     </Box>
