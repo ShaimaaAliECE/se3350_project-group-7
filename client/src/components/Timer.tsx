@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useGame } from "@/context/GameContext";
 import { Box } from "@chakra-ui/react";
 
@@ -8,11 +8,7 @@ const Timer: React.FC<TimerProps> = () => {
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const game = useGame();
 
-  const tick = () => {
-    setSecondsElapsed(secondsElapsed + 1);
-  };
-
-  function getTime() {
+  const time = useMemo(() => {
     let totalSeconds = secondsElapsed;
     let hrs = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
@@ -22,7 +18,7 @@ const Timer: React.FC<TimerProps> = () => {
     return `${hrs.toString().padStart(2, "0")}:${mins
       .toString()
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  }
+  }, [secondsElapsed]);
 
   function reset() {
     setSecondsElapsed(0);
@@ -33,11 +29,14 @@ const Timer: React.FC<TimerProps> = () => {
   }, [game.level]);
 
   useEffect(() => {
-    const timerId = setInterval(() => tick(), 1000);
+    const timerId = setInterval(
+      () => setSecondsElapsed((prev) => prev + 1),
+      1000
+    );
     return () => clearInterval(timerId);
-  }, [secondsElapsed]);
+  }, [setSecondsElapsed]);
 
-  return <Box>{getTime()}</Box>;
+  return <Box>{time}</Box>;
 };
 
 export default Timer;
