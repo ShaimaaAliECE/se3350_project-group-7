@@ -20,7 +20,7 @@ const Home: React.FC<HomeProps> = ({}) => {
         <Text as="h1">Algorithm Educational Game</Text>
         <Select
           onChange={(e) => setSelection(parseInt(e.target.value))}
-          placeholder="Select a Sorting Algorithm"
+          defaultValue={"game"}
         >
           {OPTIONS.map(({ value, name }, index) => (
             <option value={index} key={value}>

@@ -6,7 +6,6 @@ import {
   Flex,
   Heading,
   Spacer,
-  useDisclosure,
   Select,
   Text,
   Modal,
@@ -15,7 +14,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
@@ -98,7 +96,7 @@ const LevelLayout: React.FC<Props> = ({
                 <Select
                   marginTop={4}
                   onChange={(e) => setAlgo(parseInt(e.target.value))}
-                  placeholder="Select a Sorting Algorithm"
+                  defaultValue={"game"}
                 >
                   {OPTIONS.map(({ value, name }, index) => (
                     <option value={index} key={value}>
@@ -106,7 +104,11 @@ const LevelLayout: React.FC<Props> = ({
                     </option>
                   ))}
                 </Select>
-                <Select onChange={(e) => setLevel(parseInt(e.target.value))} placeholder="Select Level" marginTop={2}>
+                <Select
+                  onChange={(e) => setLevel(parseInt(e.target.value))}
+                  defaultValue={"0"}
+                  marginTop={2}
+                >
                   {generateLevels()}
                 </Select>
               </div>
@@ -124,15 +126,21 @@ const LevelLayout: React.FC<Props> = ({
                   Easy Restart
                 </Button>
                 <Spacer />
-                <Button onClick={() => {
-                  game.jumpToLevel(level)
-                }} colorScheme="blue" mr={1} variant="outline">
+                <Button
+                  onClick={() => {
+                    game.jumpToLevel(level);
+                  }}
+                  colorScheme="blue"
+                  mr={1}
+                  variant="outline"
+                >
                   Go to level
                 </Button>
                 <Button
                   colorScheme="red"
                   mr={3}
                   onClick={() => {
+                    game.restartLevel();
                     navigate("/");
                   }}
                 >
@@ -164,6 +172,7 @@ const LevelLayout: React.FC<Props> = ({
                   colorScheme="red"
                   mr={3}
                   onClick={() => {
+                    game.restartLevel();
                     navigate("/");
                   }}
                 >
