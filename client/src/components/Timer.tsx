@@ -4,7 +4,7 @@ import { Box, BoxProps } from "@chakra-ui/react";
 
 export type TimerProps = {} & BoxProps;
 
-const Timer: React.FC<TimerProps> = ({ ...rest }) => {
+const Timer: React.FC<BoxProps> = ({ ...rest }) => {
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const game = useGame();
 
