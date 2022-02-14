@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { Button, Select, VStack, Center, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import {
+  Button,
+  Select,
+  Text,
+  Flex,
+  Container,
+  Heading,
+  Stack,
+} from '@chakra-ui/react';
 
 const OPTIONS = [{ value: "game", name: "Merge Sort" }];
 
@@ -16,9 +24,25 @@ const Home: React.FC<HomeProps> = ({}) => {
   }
 
   return (
-    <Center mt={8}>
-      <VStack justify="center" align="center" w="50%" spacing={4}>
-        <Text as="h1">Algorithm Educational Game</Text>
+    <Container maxW={'5xl'}>
+    <Stack
+      textAlign={'center'}
+      align={'center'}
+      spacing={{ base: 8, md: 10 }}
+      py={{ base: 20, md: 28 }}>
+      <Heading
+        fontWeight={600}
+        fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
+        lineHeight={'110%'}>
+       Welcome!{' '}
+        <Text as={'span'} color={'orange.400'}>
+          To the Algorithm Educational Game
+        </Text>
+      </Heading>
+      <Text color={'gray.500'} maxW={'3xl'}>
+        We are on a mission to help undergraduate students learn different sorting algorithms. Currently, we only have one algorithm available, merge sort.
+        Keep checking for new algorithms!
+      </Text>
         <Select
           onChange={(e) => setSelection(parseInt(e.target.value))}
           placeholder="Select a Sorting Algorithm"
@@ -30,8 +54,10 @@ const Home: React.FC<HomeProps> = ({}) => {
           ))}
         </Select>
         <Button onClick={start}>Start</Button>
-      </VStack>
-    </Center>
+      <Flex w={'full'}>
+      </Flex>
+    </Stack>
+  </Container>
   );
 };
 
