@@ -142,7 +142,7 @@ export const GameProvider: React.FC = ({ children }) => {
 
   function nextStep() {
     if (level === 0) {
-      if (stepIndex === steps.length - 2){
+      if (stepIndex === steps.length - 2) {
         nextLevelSound.play();
       }
       if (stepIndex < steps.length - 1) {
