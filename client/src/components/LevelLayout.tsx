@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useMemo } from "react";
 import {
   Box,
   Button,
@@ -22,7 +22,7 @@ import BoxesContainer from "./BoxesContainer";
 import StepValidation from "./StepValidation";
 import Instructions from "./Instructions";
 import { OPTIONS } from "@/constants";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 
 export type Props = {
@@ -62,13 +62,13 @@ const LevelLayout: React.FC<Props> = ({
   const [customRestart, setCustomRestart] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  function generateLevels() {
+  const availableLevels = useMemo(() => {
     let items = [];
-    for (var i = 0; i <= game.maxLevelSeen; i++) {
+    for (let i = 0; i <= game.maxLevelSeen; i++) {
       items.push(<option value={i}>Level {i + 1}</option>);
     }
     return items;
-  }
+  }, [game.maxLevelSeen]);
 
   return (
     <Box h="100vh">
@@ -132,7 +132,7 @@ const LevelLayout: React.FC<Props> = ({
                   defaultValue={"0"}
                   marginTop={2}
                 >
-                  {generateLevels()}
+                  {availableLevels}
                 </Select>
               </div>
             )}
