@@ -8,6 +8,9 @@ import {
   Container,
   Heading,
   Stack,
+  Box,
+  Link,
+  useColorModeValue,
 } from '@chakra-ui/react';
 
 const OPTIONS = [{ value: "game", name: "Merge Sort" }];
@@ -57,6 +60,29 @@ const Home: React.FC<HomeProps> = ({}) => {
       <Flex w={'full'}>
       </Flex>
     </Stack>
+
+    <Box
+      bg={useColorModeValue('gray.50', 'gray.900')}
+      color={useColorModeValue('gray.700', 'gray.200')}>
+      <Container
+        as={Stack}
+        maxW={'6xl'}
+        py={4}
+        direction={{ base: 'column', md: 'row' }}
+        spacing={4}
+        justify={{ base: 'center', md: 'space-between' }}
+        align={{ base: 'center', md: 'center' }}
+        position= {"fixed"}
+        bottom= "0">
+        <Stack direction={'row'} spacing={6}>
+          <Link href={'#'}>Instagram</Link>
+          <Link href={'#'}>Facebook</Link>
+          <Link href={'#'}>Linkedin</Link>
+          <Link href={'#'}>Contact</Link>
+        </Stack>
+        <Text>© 2022 Softie Eng Design Team. All rights reserved</Text>
+      </Container>
+    </Box>
   </Container>
   );
 };
