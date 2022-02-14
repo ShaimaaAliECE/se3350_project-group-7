@@ -6,6 +6,7 @@ import {
   Heading,
   Spacer,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
 import { TOOLBAR_HEIGHT } from "@/constants";
@@ -13,6 +14,7 @@ import BoxesContainer from "./BoxesContainer";
 import StepValidation from "./StepValidation";
 import Instructions from "./Instructions";
 import Timer from "@/components/Timer";
+import Confetti from "react-confetti";
 
 export type Props = {
   headingText: string;
@@ -27,6 +29,24 @@ const LevelLayout: React.FC<Props> = ({
   children,
 }) => {
   const game = useGame();
+  const toast = useToast();
+
+  function didWin() {
+    if (game.stepIndex === game.steps.length - 2) {
+      toast({
+        title: "Good job!",
+        description: `You've completed level ${game.level + 1}`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }
+
+  function handleNextStep() {
+    game.nextStep();
+    didWin();
+  }
 
   return (
     <Box h="100vh">
@@ -48,12 +68,15 @@ const LevelLayout: React.FC<Props> = ({
           Previous Step
         </Button>
         {game.stepIndex === game.steps.length - 1 && game.level < 5 - 1 ? (
-          <Button onClick={() => game.jumpToLevel(game.level + 1)}>
-            Next Level
-          </Button>
+          <>
+            <Button onClick={() => game.jumpToLevel(game.level + 1)}>
+              Next Level
+            </Button>
+            <Confetti recycle={false} />
+          </>
         ) : (
           game.stepIndex !== game.steps.length - 1 && (
-            <Button onClick={game.nextStep}>Next Step</Button>
+            <Button onClick={() => handleNextStep()}>Next Step</Button>
           )
         )}
       </Flex>
