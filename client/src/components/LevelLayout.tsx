@@ -21,6 +21,7 @@ import { TOOLBAR_HEIGHT } from "@/constants";
 import BoxesContainer from "./BoxesContainer";
 import StepValidation from "./StepValidation";
 import Instructions from "./Instructions";
+import Timer from "@/components/Timer";
 import { OPTIONS } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
@@ -77,6 +78,15 @@ const LevelLayout: React.FC<Props> = ({
           {headingText}
         </Heading>
         <Spacer />
+        <Text
+          fontFamily="monospace"
+          fontSize="lg"
+          fontWeight="bold"
+          mr={4}
+          mt={2}
+        >
+          <Timer />
+        </Text>
         <Button mr={4} onClick={game.prevStep}>
           Previous Step
         </Button>
