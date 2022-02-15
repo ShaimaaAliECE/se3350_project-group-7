@@ -1,3 +1,4 @@
+import React, { useState, useMemo } from "react";
 import {
   Box,
   Button,
@@ -5,7 +6,14 @@ import {
   Flex,
   Heading,
   Spacer,
+  Select,
   Text,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
   useToast,
 } from "@chakra-ui/react";
 import { useGame } from "@/context/GameContext";
@@ -14,6 +22,8 @@ import BoxesContainer from "./BoxesContainer";
 import StepValidation from "./StepValidation";
 import Instructions from "./Instructions";
 import Timer from "@/components/Timer";
+import { OPTIONS } from "@/constants";
+import { useNavigate } from "react-router-dom";
 import Confetti from "react-confetti";
 
 export type Props = {
@@ -47,6 +57,19 @@ const LevelLayout: React.FC<Props> = ({
     game.nextStep();
     didWin();
   }
+
+  const [algo, setAlgo] = useState<number>(0);
+  const [level, setLevel] = useState<number>(0);
+  const [customRestart, setCustomRestart] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const availableLevels = useMemo(() => {
+    let items = [];
+    for (let i = 0; i <= game.maxLevelSeen; i++) {
+      items.push(<option value={i}>Level {i + 1}</option>);
+    }
+    return items;
+  }, [game.maxLevelSeen]);
 
   return (
     <Box h="100vh">
@@ -86,6 +109,113 @@ const LevelLayout: React.FC<Props> = ({
         {showInput && <StepValidation />}
         {children}
       </Container>
+
+      <Modal
+        isOpen={game.hasFailed}
+        onClose={() => {
+          navigate("/");
+        }}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>You messed up too many times</ModalHeader>
+          <ModalBody>
+            <Text>
+              You used all 3 of your attempts. Do you want to restart this
+              level, try a previous level, or quit the game?
+            </Text>
+            {customRestart && (
+              <div>
+                <Select
+                  marginTop={4}
+                  onChange={(e) => setAlgo(parseInt(e.target.value))}
+                  defaultValue={"game"}
+                >
+                  {OPTIONS.map(({ value, name }, index) => (
+                    <option value={index} key={value}>
+                      {name}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  onChange={(e) => setLevel(parseInt(e.target.value))}
+                  defaultValue={"0"}
+                  marginTop={2}
+                >
+                  {availableLevels}
+                </Select>
+              </div>
+            )}
+          </ModalBody>
+          <ModalFooter>
+            {customRestart ? (
+              <Flex width={"100%"}>
+                <Button
+                  onClick={() => {
+                    setCustomRestart(false);
+                  }}
+                  variant="ghost"
+                >
+                  Easy Restart
+                </Button>
+                <Spacer />
+                <Button
+                  onClick={() => {
+                    game.jumpToLevel(level);
+                  }}
+                  colorScheme="blue"
+                  mr={1}
+                  variant="outline"
+                >
+                  Go to level
+                </Button>
+                <Button
+                  colorScheme="red"
+                  mr={3}
+                  onClick={() => {
+                    game.restartLevel();
+                    navigate("/");
+                  }}
+                >
+                  Quit
+                </Button>
+              </Flex>
+            ) : (
+              <Flex width={"100%"}>
+                <Button
+                  onClick={() => {
+                    setCustomRestart(true);
+                  }}
+                  variant="ghost"
+                >
+                  Custom Restart
+                </Button>
+                <Spacer />
+                <Button
+                  onClick={() => {
+                    game.restartLevel();
+                  }}
+                  colorScheme="blue"
+                  mr={1}
+                  variant="outline"
+                >
+                  Restart
+                </Button>
+                <Button
+                  colorScheme="red"
+                  mr={3}
+                  onClick={() => {
+                    game.restartLevel();
+                    navigate("/");
+                  }}
+                >
+                  Quit
+                </Button>
+              </Flex>
+            )}
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };
