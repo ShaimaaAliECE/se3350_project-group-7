@@ -13,7 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 
-const OPTIONS = [{ value: "game", name: "Merge Sort" }];
+import { OPTIONS } from "@/constants";
 
 export type HomeProps = {};
 
@@ -48,7 +48,7 @@ const Home: React.FC<HomeProps> = ({}) => {
       </Text>
         <Select
           onChange={(e) => setSelection(parseInt(e.target.value))}
-          placeholder="Select a Sorting Algorithm"
+          defaultValue={"game"}
         >
           {OPTIONS.map(({ value, name }, index) => (
             <option value={index} key={value}>
