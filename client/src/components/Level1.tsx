@@ -7,6 +7,7 @@ const Level1 = () => {
       headingText="Level 1: Sorting Demonstration"
       showInstructions={true}
       showInput={false}
+      showAttempts={false}
     />
   );
 };

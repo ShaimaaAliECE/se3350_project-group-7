@@ -7,6 +7,7 @@ const Level3 = () => {
       headingText="Level 3: User-Driven Sort"
       showInstructions={false}
       showInput={true}
+      showAttempts={true}
     />
   );
 };

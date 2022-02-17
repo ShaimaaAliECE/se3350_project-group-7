@@ -30,12 +30,14 @@ export type Props = {
   headingText: string;
   showInstructions: boolean;
   showInput: boolean;
+  showAttempts: boolean;
 };
 
 const LevelLayout: React.FC<Props> = ({
   headingText,
   showInstructions,
   showInput,
+  showAttempts,
   children,
 }) => {
   const game = useGame();
@@ -216,6 +218,14 @@ const LevelLayout: React.FC<Props> = ({
           </ModalFooter>
         </ModalContent>
       </Modal>
+      <Flex>
+        <Spacer />
+        {showAttempts && (
+          <Box bg="gray.200" p={4} borderRadius="lg">
+            <Text>Remaining Attempts: {3 - game.attempts}/3 </Text>
+          </Box>
+        )}
+      </Flex>
     </Box>
   );
 };
