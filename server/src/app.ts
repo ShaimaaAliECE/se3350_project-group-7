@@ -25,7 +25,7 @@ let staticPath: string;
 
 if (process.env.NODE_ENV === "production") {
   // In production, we're under src/dist
-  staticPath = path.join(__dirname, "..", "..", "public");
+  staticPath = path.join(__dirname, "..", "..", "..", "client", "build");
 } else {
   staticPath = path.join(__dirname, "..", "public");
 }
