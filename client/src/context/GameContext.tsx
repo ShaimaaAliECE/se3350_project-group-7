@@ -162,6 +162,7 @@ export const GameProvider: React.FC = ({ children }) => {
           setStepIndex(stepIndex + 1);
         }
 
+        if (stepIndex < steps.length - 2) {
         // determine which input's should remain constant for the next step
         const persistentValues = steps[stepIndex + 2].value.reduce<
           Record<number, string>
@@ -182,6 +183,7 @@ export const GameProvider: React.FC = ({ children }) => {
             return { ...accumulator, [key]: true };
           }, {})
         );
+        }
 
         setCorrect({});
       } else {
