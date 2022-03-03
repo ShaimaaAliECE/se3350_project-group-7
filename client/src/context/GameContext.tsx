@@ -21,25 +21,25 @@ const LEVELS: LevelConfig[] = [
     start: 0,
     min: 1,
     max: 20,
-    nums: 10,
+    nums: 2,
   },
   {
     start: 0,
     min: 1,
     max: 20,
-    nums: 10,
+    nums: 2,
   },
   {
     start: 0,
     min: 1,
     max: 50,
-    nums: 20,
+    nums: 2,
   },
   {
     start: 0,
     min: 1,
     max: 100,
-    nums: 50,
+    nums: 2,
   },
 ];
 interface ContextType {
@@ -162,6 +162,7 @@ export const GameProvider: React.FC = ({ children }) => {
           setStepIndex(stepIndex + 1);
         }
 
+        if (stepIndex < steps.length - 2) {
         // determine which input's should remain constant for the next step
         const persistentValues = steps[stepIndex + 2].value.reduce<
           Record<number, string>
@@ -182,6 +183,7 @@ export const GameProvider: React.FC = ({ children }) => {
             return { ...accumulator, [key]: true };
           }, {})
         );
+        }
 
         setCorrect({});
       } else {
