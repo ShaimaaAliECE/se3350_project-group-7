@@ -21,25 +21,25 @@ const LEVELS: LevelConfig[] = [
     start: 0,
     min: 1,
     max: 20,
-    nums: 2,
+    nums: 10,
   },
   {
     start: 0,
     min: 1,
     max: 20,
-    nums: 2,
+    nums: 10,
   },
   {
     start: 0,
     min: 1,
     max: 50,
-    nums: 2,
+    nums: 20,
   },
   {
     start: 0,
     min: 1,
     max: 100,
-    nums: 2,
+    nums: 50,
   },
 ];
 interface ContextType {
