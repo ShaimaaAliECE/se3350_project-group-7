@@ -171,7 +171,6 @@ export const GameProvider: React.FC = ({ children }) => {
         const persistentValues = steps[stepIndex + 2].value.reduce<
           Record<number, string>
         >((acc, val, index) => {
-          console.log(val);
           if (steps[stepIndex + 1].value.includes(val)) {
             acc[index] = val.toString();
             return acc;
@@ -180,7 +179,6 @@ export const GameProvider: React.FC = ({ children }) => {
         }, {});
 
         setValues(persistentValues);
-        console.log(persistentValues)
 
         // all of the persistent values should be read only
         setReadOnly(

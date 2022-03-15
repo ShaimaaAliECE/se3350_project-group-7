@@ -42,14 +42,14 @@ export default function generateSteps(items: number[]): Step[] {
     let l = low;
     let h = high;
     for (let i = 1; i <= combined.length; i++){
-      let instruction = `Compare the elements of the left array: [${low}] with the elements of the right array: [${high}], pick the smallest element. This will be element ${i} in the merged array.`;
-      newStep.push(combined.slice(0, i))
-      let toRemove = combined[i]
+      let instruction = `Compare the elements of the left array: [${l}] with the elements of the right array: [${h}], pick the smallest element. This will be element ${i} in the merged array.`;
+      let toRemove = combined[i-1]
       if (l.includes(toRemove)){
         l = l.filter(item => item !== toRemove)
       } else{
         h = h.filter(item => item !== toRemove)
       }
+      newStep.push(combined.slice(0, i));
       steps.push({
         value: newStep,
         type: "combine",
@@ -57,7 +57,7 @@ export default function generateSteps(items: number[]): Step[] {
       });
       newStep = []
     }
-
+  
     const instruction = `Good job, you completed a merging step!`;
 
     latest.value.forEach((item) => {
