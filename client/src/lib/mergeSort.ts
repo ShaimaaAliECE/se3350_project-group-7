@@ -50,6 +50,10 @@ export default function generateSteps(items: number[]): Step[] {
         h = h.filter(item => item !== toRemove)
       }
       newStep.push(combined.slice(0, i));
+      if (l.length)
+        newStep.push(l)
+      if (h.length)
+        newStep.push(h)
       steps.push({
         value: newStep,
         type: "combine",

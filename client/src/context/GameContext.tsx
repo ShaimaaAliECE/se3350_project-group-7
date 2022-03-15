@@ -92,7 +92,7 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(2);
   const [stepIndex, setStepIndex] = useState(0);
   const [numElems, setNumElems] = useState(4);
   const [[min, max], setMinMax] = useState([0, 20]);
