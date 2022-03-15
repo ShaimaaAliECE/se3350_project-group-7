@@ -2,11 +2,17 @@ import React from "react";
 import {
   Text,
   Stack,
-  Heading
+  Heading,
+  Button
 } from '@chakra-ui/react';
-
+import { useNavigate } from "react-router-dom";
 
 const Admin = () =>{
+    const navigate = useNavigate();
+        const routeChange = () => {
+          let path = "/";
+          navigate(path);
+        };
     return (
         <Stack>
             <Heading
@@ -16,6 +22,9 @@ const Admin = () =>{
             <Text as={'span'} color={'orange.400'}>
             Player Analytics
             </Text>
+            <Button colorScheme="orange" onClick={routeChange}>
+            Home
+            </Button>
             </Heading>
         </Stack>
         
