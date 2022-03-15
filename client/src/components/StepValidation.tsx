@@ -5,8 +5,9 @@ const StepValidation = () => {
   const game = useGame();
   return (
     <Flex mt={6}>
-      {game.stepIndex < game.steps.length - 1 &&
+      {game.stepIndex < game.steps.length - 1 && 
         game.steps[game.stepIndex + 1].value.map((arr, index) => (
+          game.steps[game.stepIndex + 1].type !== "answer" && (
           <Input
             mx={2}
             value={game.values[index] || ""}
@@ -23,7 +24,7 @@ const StepValidation = () => {
             }
             placeholder={"Insert numbers"}
           />
-        ))}
+        )))}
     </Flex>
   );
 };

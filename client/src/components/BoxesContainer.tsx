@@ -18,7 +18,7 @@ const BoxesContainer: React.FC<BoxesContainerProps> = ({ ...rest }) => {
             </React.Fragment>
           ))}
         </Flex>
-      )}
+          )}
     </Box>
   );
 };

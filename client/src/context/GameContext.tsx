@@ -21,7 +21,7 @@ const LEVELS: LevelConfig[] = [
     start: 0,
     min: 1,
     max: 20,
-    nums: 5,
+    nums: 4,
   },
   {
     start: 0,
@@ -92,9 +92,9 @@ function generateArray(n: number, options?: Options) {
 export const GameContext = createContext<ContextType | null>(null);
 
 export const GameProvider: React.FC = ({ children }) => {
-  const [level, setLevel] = useState(0);
+  const [level, setLevel] = useState(1);
   const [stepIndex, setStepIndex] = useState(0);
-  const [numElems, setNumElems] = useState(10);
+  const [numElems, setNumElems] = useState(4);
   const [[min, max], setMinMax] = useState([0, 20]);
   const [maxLevelSeen, setMaxLevelSeen] = useState(0);
 

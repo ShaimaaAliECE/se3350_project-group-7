@@ -1,6 +1,6 @@
 export interface Step {
   value: number[][];
-  type: "split" | "combine" | "initial";
+  type: "split" | "combine" | "initial" | "answer";
   instruction: string;
 }
 
@@ -75,7 +75,7 @@ export default function generateSteps(items: number[]): Step[] {
 
     steps.push({
       value: newStep,
-      type: "combine",
+      type: "answer",
       instruction: instruction,
     });
   }
