@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { GameProvider } from "./context/GameContext";
 import SortingGame from "./components/SortingGame";
 import Home from "./pages/Home";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Routes>
             <Route path="/game" element={<SortingGame />} />
             <Route path="/" element={<Home />} />
+            <Route path="/admin" element={<Admin/>} />
           </Routes>
         </Router>
       </GameProvider>
