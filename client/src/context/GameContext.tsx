@@ -21,13 +21,13 @@ const LEVELS: LevelConfig[] = [
     start: 0,
     min: 1,
     max: 20,
-    nums: 4,
+    nums: 2,
   },
   {
     start: 0,
     min: 1,
     max: 20,
-    nums: 4,
+    nums: 2,
   },
   {
     start: 0,
@@ -150,9 +150,13 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     } else {
       // check if all inputs are correct
-      const isCorrect = steps[stepIndex + 1].value.every((arr, index) =>
+      let isCorrect = steps[stepIndex + 1].value.every((arr, index) =>
         checkInput(values[index], arr.toString())
       );
+
+      if (steps[stepIndex+1].type === "answer"){
+        isCorrect = true
+      }
 
       if (isCorrect) {
         if (stepIndex === steps.length - 2) {
@@ -176,6 +180,7 @@ export const GameProvider: React.FC = ({ children }) => {
         }, {});
 
         setValues(persistentValues);
+        console.log(persistentValues)
 
         // all of the persistent values should be read only
         setReadOnly(
