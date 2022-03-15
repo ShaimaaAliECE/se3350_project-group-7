@@ -15,19 +15,19 @@ const LEVELS: LevelConfig[] = [
     start: 0,
     min: 1,
     max: 20,
-    nums: 4,
+    nums: 10,
   },
   {
     start: 0,
     min: 1,
     max: 20,
-    nums: 2,
+    nums: 10,
   },
   {
     start: 0,
     min: 1,
     max: 20,
-    nums: 2,
+    nums: 10,
   },
   {
     start: 0,
