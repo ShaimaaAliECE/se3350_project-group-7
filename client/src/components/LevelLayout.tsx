@@ -44,8 +44,12 @@ const LevelLayout: React.FC<Props> = ({
   const toast = useToast();
 
   function didWin() {
-    if ((game.stepIndex === game.steps.length - 2 && game.level === 0)
-        || (game.stepIndex === game.steps.length - 2 && game.level > 0 && game.correct[0])) {
+    if (
+      (game.stepIndex === game.steps.length - 2 && game.level === 0) ||
+      (game.stepIndex === game.steps.length - 2 &&
+        game.level > 0 &&
+        game.correct[0])
+    ) {
       toast({
         title: "Good job!",
         description: `You've completed level ${game.level + 1}`,

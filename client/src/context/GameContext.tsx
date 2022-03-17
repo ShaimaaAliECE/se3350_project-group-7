@@ -163,26 +163,26 @@ export const GameProvider: React.FC = ({ children }) => {
         }
 
         if (stepIndex < steps.length - 2) {
-        // determine which input's should remain constant for the next step
-        const persistentValues = steps[stepIndex + 2].value.reduce<
-          Record<number, string>
-        >((acc, val, index) => {
-          console.log(val);
-          if (steps[stepIndex + 1].value.includes(val)) {
-            acc[index] = val.toString();
+          // determine which input's should remain constant for the next step
+          const persistentValues = steps[stepIndex + 2].value.reduce<
+            Record<number, string>
+          >((acc, val, index) => {
+            console.log(val);
+            if (steps[stepIndex + 1].value.includes(val)) {
+              acc[index] = val.toString();
+              return acc;
+            }
             return acc;
-          }
-          return acc;
-        }, {});
+          }, {});
 
-        setValues(persistentValues);
+          setValues(persistentValues);
 
-        // all of the persistent values should be read only
-        setReadOnly(
-          Object.keys(persistentValues).reduce((accumulator, key) => {
-            return { ...accumulator, [key]: true };
-          }, {})
-        );
+          // all of the persistent values should be read only
+          setReadOnly(
+            Object.keys(persistentValues).reduce((accumulator, key) => {
+              return { ...accumulator, [key]: true };
+            }, {})
+          );
         }
 
         setCorrect({});

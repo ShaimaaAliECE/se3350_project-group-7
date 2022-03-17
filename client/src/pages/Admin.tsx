@@ -70,6 +70,7 @@ const Admin = () => {
             Player Analytics
           </Text>
         </chakra.h1>
+        {/* how to get the time spent on each level? */}
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
           <StatsCard title={"Time Spent on Level 1"} stat={"5 minutes"} />
           <StatsCard title={"Time Spent on Level 2"} stat={"5 minutes"} />
