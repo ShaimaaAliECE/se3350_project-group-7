@@ -88,7 +88,7 @@ const LevelLayout: React.FC<Props> = ({
           mr={4}
           mt={2}
         >
-          <Timer paused={game.stepIndex === game.steps.length - 1 && game.level <= 5 - 1}/>
+          <Timer />
         </Text>
         <Button mr={4} onClick={game.prevStep}>
           Previous Step

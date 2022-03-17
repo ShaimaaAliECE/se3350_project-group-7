@@ -1,6 +1,13 @@
-import React, { createContext, useContext, useState, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useEffect,
+} from "react";
 import generateSteps, { Step } from "../lib/mergeSort";
 import useAudio from "../hooks/useAudio";
+import { Action, logActionToServer } from "@/lib/logger";
 
 const ATTEMPTS = 3;
 
@@ -59,6 +66,7 @@ interface ContextType {
   values: Record<number, string>;
   correct: Record<number, boolean>;
   readOnly: Record<number, boolean>;
+  secondsElapsed: number;
 }
 
 interface Options {
@@ -102,6 +110,7 @@ export const GameProvider: React.FC = ({ children }) => {
   const [values, setValues] = useState<Record<number, string>>({});
   const [correct, setCorrect] = useState<Record<number, boolean>>({});
   const [readOnly, setReadOnly] = useState<Record<number, boolean>>({});
+  const [secondsElapsed, setSecondsElapsed] = useState<number>(0);
 
   const inputCorrectSound = useAudio("shortSuccess.mp3");
   const nextLevelSound = useAudio("celebration.mp3");
@@ -115,6 +124,17 @@ export const GameProvider: React.FC = ({ children }) => {
   );
 
   const currStep = steps[stepIndex];
+
+  const isPaused = stepIndex === steps.length - 1 && level <= 5 - 1;
+  useEffect(() => {
+    if (!isPaused) {
+        const timerId = setInterval(
+            () => setSecondsElapsed((prev) => prev + 1),
+            1000
+          );
+        return () => clearInterval(timerId);
+    }
+  }, [isPaused]);
 
   function handleInput(index: number, value: string) {
     // Avoid index out of bounds error, should never have to check
@@ -163,26 +183,26 @@ export const GameProvider: React.FC = ({ children }) => {
         }
 
         if (stepIndex < steps.length - 2) {
-        // determine which input's should remain constant for the next step
-        const persistentValues = steps[stepIndex + 2].value.reduce<
-          Record<number, string>
-        >((acc, val, index) => {
-          console.log(val);
-          if (steps[stepIndex + 1].value.includes(val)) {
-            acc[index] = val.toString();
+          // determine which input's should remain constant for the next step
+          const persistentValues = steps[stepIndex + 2].value.reduce<
+            Record<number, string>
+          >((acc, val, index) => {
+            console.log(val);
+            if (steps[stepIndex + 1].value.includes(val)) {
+              acc[index] = val.toString();
+              return acc;
+            }
             return acc;
-          }
-          return acc;
-        }, {});
+          }, {});
 
-        setValues(persistentValues);
+          setValues(persistentValues);
 
-        // all of the persistent values should be read only
-        setReadOnly(
-          Object.keys(persistentValues).reduce((accumulator, key) => {
-            return { ...accumulator, [key]: true };
-          }, {})
-        );
+          // all of the persistent values should be read only
+          setReadOnly(
+            Object.keys(persistentValues).reduce((accumulator, key) => {
+              return { ...accumulator, [key]: true };
+            }, {})
+          );
         }
 
         setCorrect({});
@@ -204,11 +224,18 @@ export const GameProvider: React.FC = ({ children }) => {
     setStepIndex(0);
     setAttempts(0);
     setValues({});
+    setSecondsElapsed(0);
     setCorrect({});
+    logActionToServer("RESTART", { level: level + 1 });
   }
 
   function hasSeenLevel(lastLevel: number) {
     return lastLevel < maxLevelSeen;
+  }
+
+  function logNextLevelAction(level: number) {
+    const action = `FINISH_LEVEL_${level}` as Action;
+    logActionToServer(action, { duration: secondsElapsed });
   }
 
   function jumpToLevel(dest: number) {
@@ -216,7 +243,10 @@ export const GameProvider: React.FC = ({ children }) => {
     setStepIndex(start);
     setNumElems(nums);
     setMinMax([min, max]);
+    logNextLevelAction(dest);
+
     setLevel(dest);
+    setSecondsElapsed(0);
     setAttempts(0);
     setValues({});
     setCorrect({});
@@ -244,6 +274,7 @@ export const GameProvider: React.FC = ({ children }) => {
         values,
         correct,
         readOnly,
+        secondsElapsed,
       }}
     >
       {children}
