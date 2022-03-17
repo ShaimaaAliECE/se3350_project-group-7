@@ -16,6 +16,7 @@ import Level4 from "@/components/Level4";
 import Level5 from "@/components/Level5";
 import { useGame } from "@/context/GameContext";
 import { useNavigate } from "react-router";
+import { logActionToServer } from "@/lib/logger";
 
 export type Props = {};
 
@@ -26,6 +27,7 @@ const Header = () => {
   const navigate = useNavigate();
   const routeChange = () => {
     let path = "/";
+    logActionToServer("EXIT", {});
     navigate(path);
   };
 
