@@ -44,8 +44,12 @@ const LevelLayout: React.FC<Props> = ({
   const toast = useToast();
 
   function didWin() {
-    if ((game.stepIndex === game.steps.length - 2 && game.level === 0)
-        || (game.stepIndex === game.steps.length - 2 && game.level > 0 && game.correct[0])) {
+    if (
+      (game.stepIndex === game.steps.length - 2 && game.level === 0) ||
+      (game.stepIndex === game.steps.length - 2 &&
+        game.level > 0 &&
+        game.correct[0])
+    ) {
       toast({
         title: "Good job!",
         description: `You've completed level ${game.level + 1}`,
@@ -95,12 +99,10 @@ const LevelLayout: React.FC<Props> = ({
         </Button>
         {game.stepIndex === game.steps.length - 1 && game.level <= 5 - 1 ? (
           <>
-            {game.stepIndex === game.steps.length - 1 && game.level < 5 - 1 ? (
-                <Button onClick={() => game.jumpToLevel(game.level + 1)}>
+            {game.stepIndex === game.steps.length - 1 && game.level < 5 - 1 && (
+              <Button onClick={() => game.jumpToLevel(game.level + 1)}>
                 Next Level
               </Button>
-            ) : (
-                <></>
             )}
             <Confetti recycle={false} />
           </>
