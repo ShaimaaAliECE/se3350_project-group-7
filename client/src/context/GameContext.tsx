@@ -125,13 +125,16 @@ export const GameProvider: React.FC = ({ children }) => {
 
   const currStep = steps[stepIndex];
 
+  const isPaused = stepIndex === steps.length - 1 && level <= 5 - 1;
   useEffect(() => {
-    const timerId = setInterval(
-      () => setSecondsElapsed((prev) => prev + 1),
-      1000
-    );
-    return () => clearInterval(timerId);
-  }, []);
+    if (!isPaused) {
+        const timerId = setInterval(
+            () => setSecondsElapsed((prev) => prev + 1),
+            1000
+          );
+        return () => clearInterval(timerId);
+    }
+  }, [isPaused]);
 
   function handleInput(index: number, value: string) {
     // Avoid index out of bounds error, should never have to check
