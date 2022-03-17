@@ -3,18 +3,19 @@ import { getId } from "./id";
 import { Event } from "../interfaces";
 import path from "path";
 import { Request } from "express";
+import { Action } from "../interfaces/Action";
 
 const folderpath = path.join(__dirname, "..", "..", "data");
 
 const filepath = path.join(folderpath, "events.log");
 
-export function log(req: Request, action: string) {
-  const id = getId(req);
+export function log(id: string, action: Action, payload: any) {
   const timestamp = Date.now().toString();
   const event: Event = {
     id,
     timestamp,
     action,
+    payload,
   };
   if (!fs.existsSync(filepath)) {
     fs.mkdirSync(folderpath, { recursive: true });
@@ -30,7 +31,7 @@ export interface GetOptions {
   actions?: string[];
 }
 
-function getLogs(options?: GetOptions) {
+function get(options?: GetOptions) {
   const { start, end, actions } = options || {};
 
   const rawData = fs.readFileSync(filepath, "utf-8");
@@ -52,12 +53,6 @@ function getLogs(options?: GetOptions) {
       return true;
     });
   return lines;
-}
-
-export function get(req: Request, options?: GetOptions) {
-  const id = getId(req);
-  const logs = getLogs(options).filter((log) => log.id === id);
-  return logs;
 }
 
 export default {
