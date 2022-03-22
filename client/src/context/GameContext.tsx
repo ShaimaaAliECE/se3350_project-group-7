@@ -128,11 +128,11 @@ export const GameProvider: React.FC = ({ children }) => {
   const isPaused = stepIndex === steps.length - 1 && level <= 5 - 1;
   useEffect(() => {
     if (!isPaused) {
-        const timerId = setInterval(
-            () => setSecondsElapsed((prev) => prev + 1),
-            1000
-          );
-        return () => clearInterval(timerId);
+      const timerId = setInterval(
+        () => setSecondsElapsed((prev) => prev + 1),
+        1000
+      );
+      return () => clearInterval(timerId);
     }
   }, [isPaused]);
 
