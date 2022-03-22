@@ -4,12 +4,11 @@ import { Box, BoxProps } from "@chakra-ui/react";
 
 export type TimerProps = {} & BoxProps;
 
-const Timer: React.FC<BoxProps> = ({ ...rest }) => {
-  const [secondsElapsed, setSecondsElapsed] = useState(0);
+const Timer: React.FC<TimerProps> = ({ ...rest }) => {
   const game = useGame();
 
   const time = useMemo(() => {
-    let totalSeconds = secondsElapsed;
+    let totalSeconds = game.secondsElapsed;
     let hrs = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
     let mins = Math.floor(totalSeconds / 60);
@@ -18,23 +17,7 @@ const Timer: React.FC<BoxProps> = ({ ...rest }) => {
     return `${hrs.toString().padStart(2, "0")}:${mins
       .toString()
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-  }, [secondsElapsed]);
-
-  function reset() {
-    setSecondsElapsed(0);
-  }
-
-  useEffect(() => {
-    reset();
-  }, [game.level]);
-
-  useEffect(() => {
-    const timerId = setInterval(
-      () => setSecondsElapsed((prev) => prev + 1),
-      1000
-    );
-    return () => clearInterval(timerId);
-  }, []);
+  }, [game.secondsElapsed]);
 
   return <Box {...rest}>{time}</Box>;
 };

@@ -97,11 +97,13 @@ const LevelLayout: React.FC<Props> = ({
         <Button mr={4} onClick={game.prevStep}>
           Previous Step
         </Button>
-        {game.stepIndex === game.steps.length - 1 && game.level < 5 - 1 ? (
+        {game.stepIndex === game.steps.length - 1 && game.level <= 5 - 1 ? (
           <>
-            <Button onClick={() => game.jumpToLevel(game.level + 1)}>
-              Next Level
-            </Button>
+            {game.stepIndex === game.steps.length - 1 && game.level < 5 - 1 && (
+              <Button onClick={() => game.jumpToLevel(game.level + 1)}>
+                Next Level
+              </Button>
+            )}
             <Confetti recycle={false} />
           </>
         ) : (
