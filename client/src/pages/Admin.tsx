@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
+import { retrieveActionFromServer } from "@/lib/logger";
 
 interface StatsCardProps {
   title: string;

@@ -12,3 +12,9 @@ export type Action =
 export function logActionToServer(action: Action, payload: any): void {
   axios.post("/api/events/", { action, payload });
 }
+
+export function retrieveActionFromServer() {
+  axios.get("/api/events/").then((resp) => {
+    return resp.data;
+  });
+}
