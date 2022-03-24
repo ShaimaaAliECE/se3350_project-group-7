@@ -13,8 +13,7 @@ export function logActionToServer(action: Action, payload: any): void {
   axios.post("/api/events/", { action, payload });
 }
 
-export function retrieveActionFromServer() {
-  axios.get("/api/events/").then((resp) => {
-    return resp.data;
-  });
+export async function getLogFromServer(action: Action[]) {
+  const res = await axios.get(`/api/events/`, { params: { action } });
+  return res.data.logs;
 }
