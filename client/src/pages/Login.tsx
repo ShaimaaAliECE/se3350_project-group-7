@@ -52,7 +52,7 @@ const LoginPage = () => {
     <Flex justify={"center"} align={"center"} height={"100vh"}>
       <Box maxWidth={"640px"} height={"min-content"}>
         <Stack>
-          <Heading>Time to Login</Heading>
+          <Heading>Login</Heading>
           <Text>Username: </Text>
           <Input
             onChange={handleUsername}
