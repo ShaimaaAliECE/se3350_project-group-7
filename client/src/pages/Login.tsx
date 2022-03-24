@@ -1,4 +1,4 @@
-import React, { HTMLInputTypeAttribute, useState } from "react";
+import React, { useState } from "react";
 import {
     Text,
     Heading,
@@ -6,11 +6,14 @@ import {
     Input,
   } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
+import { reduceEachTrailingCommentRange } from "typescript";
 
 const LoginPage = () => {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const toast = useToast()
   
     const navigate = useNavigate();
     const routeChange = () => {
@@ -31,6 +34,14 @@ const LoginPage = () => {
     function handleSubmit() {
         if(username=="admin" && password=="root"){
             routeChange();
+        }else{
+            toast({
+                title: 'ERROR',
+                description: "You've entered an incorrect username or password. Please try again.",
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+              })
         }
     }
 
