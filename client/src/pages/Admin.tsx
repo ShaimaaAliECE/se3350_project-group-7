@@ -11,6 +11,7 @@ import {
   StatLabel,
   StatNumber,
   useColorModeValue,
+  Flex,
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
@@ -83,29 +84,22 @@ const Admin = () => {
   };
 
   return (
-    <Stack>
-      <Heading
-        fontWeight={600}
-        fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
-        lineHeight={"110%"}
-        padding-left={"50px"}
-      >
-        <Button colorScheme="orange" onClick={routeChange}>
-          Home
-        </Button>
-      </Heading>
-
-      <Box maxW="7xl" mx={"auto"} pt={5} px={{ base: 2, sm: 12, md: 17 }}>
-        <chakra.h1
-          textAlign={"center"}
+    <Box>
+      <Flex align="center" justify= "center" height = "100vh">
+      <Box maxWidth={"900px"} height = {"min-content"}>
+        <Box textAlign="center">
+          <chakra.h1
           fontSize={"4xl"}
-          py={10}
           fontWeight={"bold"}
         >
           <Text as={"span"} color={"orange.400"}>
             Player Analytics
           </Text>
         </chakra.h1>
+        <Button mb = "4" colorScheme="orange" onClick={routeChange}>
+          Home
+        </Button> 
+        </Box>
         {log && (
           <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
             <StatsCard
@@ -141,7 +135,8 @@ const Admin = () => {
           </SimpleGrid>
         )}
       </Box>
-    </Stack>
+      </Flex>
+    </Box>
   );
 };
 
