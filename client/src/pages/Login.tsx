@@ -19,7 +19,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
   const routeChange = () => {
-    let path = "/yay";
+    let path = "/admin";
     navigate(path);
   };
 

@@ -20,7 +20,7 @@ export type HomeProps = {};
 const Home: React.FC<HomeProps> = ({}) => {
   const navigate = useNavigate();
   const routeChange = () => {
-    let path = "/admin";
+    let path = "/login";
     navigate(path);
   };
 
