@@ -1,15 +1,16 @@
 import { Router } from "express";
+import { Action } from "../interfaces/Action";
 import eventLoggger, { log } from "../lib/event-logger";
+import { getId } from "../lib/id";
 
 const router = Router();
 
-// Returns logs corresponding to requesting agent
 router.get("/", (req, res) => {
-  const actions = req.query.actions as string[];
+  const actions = req.query.actions as Action[];
   const start = req.query.start as string;
   const end = req.query.end as string;
 
-  let _actions: string[] = [];
+  let _actions: Action[] = [];
   if (actions instanceof Array) {
     _actions = actions;
   }
@@ -28,7 +29,7 @@ router.get("/", (req, res) => {
     _end = new Date(end);
   }
 
-  const logs = eventLoggger.get(req, {
+  const logs = eventLoggger.get({
     actions: _actions,
     start: _start,
     end: _end,
@@ -38,8 +39,10 @@ router.get("/", (req, res) => {
 
 // Logs a new event
 router.post("/", (req, res) => {
-  const action = req.body.action as string;
-  log(req, action);
+  const id = getId(req);
+  const action = req.body.action as Action;
+  const payload = req.body.payload;
+  log(id, action, payload);
   return res.status(200).send();
 });
 
