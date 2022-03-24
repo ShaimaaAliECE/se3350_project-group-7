@@ -85,56 +85,56 @@ const Admin = () => {
 
   return (
     <Box>
-      <Flex align="center" justify= "center" height = "100vh">
-      <Box maxWidth={"900px"} height = {"min-content"}>
-        <Box textAlign="center">
-          <chakra.h1
-          fontSize={"4xl"}
-          fontWeight={"bold"}
-        >
-          <Text as={"span"} color={"orange.400"}>
-            Player Analytics
-          </Text>
-        </chakra.h1>
-        <Button mb = "4" colorScheme="orange" onClick={routeChange}>
-          Home
-        </Button> 
+      <Flex align="center" justify="center" height="100vh">
+        <Box maxWidth={"900px"} height={"min-content"}>
+          <Box textAlign="center">
+            <chakra.h1 fontSize={"4xl"} fontWeight={"bold"}>
+              <Text as={"span"} color={"orange.400"}>
+                Player Analytics
+              </Text>
+            </chakra.h1>
+            <Button mb="4" colorScheme="orange" onClick={routeChange}>
+              Home
+            </Button>
+          </Box>
+          {log && (
+            <SimpleGrid
+              columns={{ base: 1, md: 3 }}
+              spacing={{ base: 5, lg: 8 }}
+            >
+              <StatsCard
+                title={"Average Time Spent on Level 1 "}
+                stat={`${getAvgCompletedLevelDuration(1)} seconds`}
+              />
+              <StatsCard
+                title={"Average Time Spent on Level 2 "}
+                stat={`${getAvgCompletedLevelDuration(2)} seconds`}
+              />
+              <StatsCard
+                title={"Average Time Spent on Level 3 "}
+                stat={`${getAvgCompletedLevelDuration(3)} seconds`}
+              />
+              <StatsCard
+                title={"Average Time Spent on Level 4 "}
+                stat={`${getAvgCompletedLevelDuration(4)} seconds`}
+              />
+              <StatsCard
+                title={"Average Time Spent on Level 5 "}
+                stat={`${getAvgCompletedLevelDuration(5)} seconds`}
+              />
+              <StatsCard
+                title={"Average Time Spent on All Levels "}
+                stat={`${computeArrAverage([
+                  getAvgCompletedLevelDuration(1) || 0,
+                  getAvgCompletedLevelDuration(2) || 0,
+                  getAvgCompletedLevelDuration(3) || 0,
+                  getAvgCompletedLevelDuration(4) || 0,
+                  getAvgCompletedLevelDuration(5) || 0,
+                ])} seconds`}
+              />
+            </SimpleGrid>
+          )}
         </Box>
-        {log && (
-          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-            <StatsCard
-              title={"Average Time Spent on Level 1 "}
-              stat={`${getAvgCompletedLevelDuration(1)} seconds`}
-            />
-            <StatsCard
-              title={"Average Time Spent on Level 2 "}
-              stat={`${getAvgCompletedLevelDuration(2)} seconds`}
-            />
-            <StatsCard
-              title={"Average Time Spent on Level 3 "}
-              stat={`${getAvgCompletedLevelDuration(3)} seconds`}
-            />
-            <StatsCard
-              title={"Average Time Spent on Level 4 "}
-              stat={`${getAvgCompletedLevelDuration(4)} seconds`}
-            />
-            <StatsCard
-              title={"Average Time Spent on Level 5 "}
-              stat={`${getAvgCompletedLevelDuration(5)} seconds`}
-            />
-            <StatsCard
-              title={"Average Time Spent on All Levels "}
-              stat={`${computeArrAverage([
-                getAvgCompletedLevelDuration(1) || 0,
-                getAvgCompletedLevelDuration(2) || 0,
-                getAvgCompletedLevelDuration(3) || 0,
-                getAvgCompletedLevelDuration(4) || 0,
-                getAvgCompletedLevelDuration(5) || 0,
-              ])} seconds`}
-            />
-          </SimpleGrid>
-        )}
-      </Box>
       </Flex>
     </Box>
   );
