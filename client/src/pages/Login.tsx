@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, Heading, Button, Input } from "@chakra-ui/react";
+import { Text, Heading, Button, Input, Flex, Box, Stack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { reduceEachTrailingCommentRange } from "typescript";
@@ -41,24 +41,28 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
-      <Heading>Time to Login</Heading>
-      <Text>Username: </Text>
-      <Input
-        onChange={handleUsername}
-        value={username}
-        placeholder="medium size"
-        size="md"
-      />
-      <Text>Password: </Text>
-      <Input
-        onChange={handlePassword}
-        value={password}
-        placeholder="medium size"
-        size="md"
-      />
-      <Button onClick={handleSubmit}>Login</Button>
-    </div>
+    <Flex justify={"center"} align={"center"} height={"100vh"}>
+      <Box maxWidth={"640px"} height={"min-content"}>
+        <Stack>
+            <Heading>Time to Login</Heading>
+        <Text>Username: </Text>
+        <Input
+          onChange={handleUsername}
+          value={username}
+          placeholder="Username"
+          size="md"
+        />
+        <Text>Password: </Text>
+        <Input
+          onChange={handlePassword}
+          value={password}
+          placeholder="Password"
+          size="md"
+        />
+        <Button onClick={handleSubmit} colorScheme={"orange"}>Login</Button>
+        </Stack>
+      </Box>
+    </Flex>
   );
 };
 
