@@ -14,11 +14,19 @@ import {
 } from "@chakra-ui/react";
 
 import { useNavigate } from "react-router-dom";
-import { Action, retrieveActionFromServer } from "@/lib/logger";
+import { Action, getLogFromServer } from "@/lib/logger";
 interface StatsCardProps {
   title: string;
   stat: string;
 }
+
+const ACTIONS: Action[] = [
+  "FINISH_LEVEL_1",
+  "FINISH_LEVEL_2",
+  "FINISH_LEVEL_3",
+  "FINISH_LEVEL_4",
+  "FINISH_LEVEL_5",
+];
 
 function StatsCard(props: StatsCardProps) {
   const { title, stat } = props;
@@ -40,29 +48,40 @@ function StatsCard(props: StatsCardProps) {
   );
 }
 
-//retrieve all the durations from the log file
-let timeSpentOnLevels = retrieveActionFromServer();
-
-//somehow need to parse this data based on the action
-//if action is is FINISHED_LEVEL_1, access level 1 duration
-//figure out the duration spent on each of the five levels
-let durationL1 = 0;
-let durationL2 = 0;
-let durationL3 = 0;
-let durationL4 = 0;
-let durationL5 = 0;
-let durationTotal =
-  durationL1 + durationL2 + durationL3 + durationL4 + durationL5;
-
 const Admin = () => {
+  const [log, setLog] = useState<null | any[]>(null);
+
+  const computeArrAverage = (arr: number[]) => {
+    const sum = arr.reduce((a, b) => a + b, 0);
+    return sum / arr.length || 0;
+  };
+
+  const getAvgCompletedLevelDuration = (level: number) => {
+    if (!log) return;
+    const filteredLog = log.filter(
+      ({ action }) => action === `FINISH_LEVEL_${level}`
+    );
+    if (filteredLog.length === 0) return 0;
+    const filteredLogDurations = filteredLog.map(({ payload }) =>
+      parseInt(payload.duration)
+    ) as number[];
+    return computeArrAverage(filteredLogDurations);
+  };
+
+  useEffect(() => {
+    const fetchLog = async () => {
+      const logData = await getLogFromServer(ACTIONS);
+      setLog(logData);
+    };
+    fetchLog().catch(console.error);
+  }, []);
+
   const navigate = useNavigate();
   const routeChange = () => {
     let path = "/";
     navigate(path);
   };
-  // useEffect(() => {
-  //   //update the durations when there is an update
-  // })
+
   return (
     <Stack>
       <Heading
@@ -87,33 +106,40 @@ const Admin = () => {
             Player Analytics
           </Text>
         </chakra.h1>
-        {/* how to get the time spent on each level? */}
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
-          <StatsCard
-            title={"Time Spent on Level 1 "}
-            stat={durationL1 + " minutes"}
-          />
-          <StatsCard
-            title={"Time Spent on Level 2 "}
-            stat={durationL2 + " minutes"}
-          />
-          <StatsCard
-            title={"Time Spent on Level 3 "}
-            stat={durationL3 + " minutes"}
-          />
-          <StatsCard
-            title={"Time Spent on Level 4 "}
-            stat={durationL4 + " minutes"}
-          />
-          <StatsCard
-            title={"Time Spent on Level 5 "}
-            stat={durationL5 + " minutes"}
-          />
-          <StatsCard
-            title={"Time Spent Overall"}
-            stat={durationTotal + " minutes"}
-          />
-        </SimpleGrid>
+        {log && (
+          <SimpleGrid columns={{ base: 1, md: 3 }} spacing={{ base: 5, lg: 8 }}>
+            <StatsCard
+              title={"Average Time Spent on Level 1 "}
+              stat={`${getAvgCompletedLevelDuration(1)} seconds`}
+            />
+            <StatsCard
+              title={"Average Time Spent on Level 2 "}
+              stat={`${getAvgCompletedLevelDuration(2)} seconds`}
+            />
+            <StatsCard
+              title={"Average Time Spent on Level 3 "}
+              stat={`${getAvgCompletedLevelDuration(3)} seconds`}
+            />
+            <StatsCard
+              title={"Average Time Spent on Level 4 "}
+              stat={`${getAvgCompletedLevelDuration(4)} seconds`}
+            />
+            <StatsCard
+              title={"Average Time Spent on Level 5 "}
+              stat={`${getAvgCompletedLevelDuration(5)} seconds`}
+            />
+            <StatsCard
+              title={"Average Time Spent on All Levels "}
+              stat={`${computeArrAverage([
+                getAvgCompletedLevelDuration(1) || 0,
+                getAvgCompletedLevelDuration(2) || 0,
+                getAvgCompletedLevelDuration(3) || 0,
+                getAvgCompletedLevelDuration(4) || 0,
+                getAvgCompletedLevelDuration(5) || 0,
+              ])} seconds`}
+            />
+          </SimpleGrid>
+        )}
       </Box>
     </Stack>
   );
