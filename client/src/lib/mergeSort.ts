@@ -38,30 +38,40 @@ export default function generateSteps(items: number[]): Step[] {
     let latest = steps[steps.length - 1];
     let newStep: number[][] = [];
     let seenLow = false;
-    
-    let l = low;
-    let h = high;
-    for (let i = 1; i <= combined.length; i++){
+
+    let l = low.slice();
+    let h = high.slice();
+    for (let i = 1; i <= combined.length; i++) {
       let instruction = `Compare the elements of the left array: [${l}] with the elements of the right array: [${h}], pick the smallest element. This will be element ${i} in the merged array.`;
-      let toRemove = combined[i-1]
-      if (l.includes(toRemove)){
-        l = l.filter(item => item !== toRemove)
-      } else{
-        h = h.filter(item => item !== toRemove)
+      let toRemove = combined[i - 1];
+      if (l.includes(toRemove)) {
+        l.splice(
+          l.findIndex((a) => a === toRemove),
+          1
+        );
+        //l = l.filter(item => item !== toRemove)
+      } else {
+        h.splice(
+          h.findIndex((a) => a === toRemove),
+          1
+        );
+        //h = h.filter(item => item !== toRemove)
       }
       newStep.push(combined.slice(0, i));
-      if (l.length)
-        newStep.push(l)
-      if (h.length)
-        newStep.push(h)
+      if (l.length) {
+        newStep.push(l.slice());
+      }
+      if (h.length) {
+        newStep.push(h.slice());
+      }
       steps.push({
         value: newStep,
         type: "combine",
         instruction: instruction,
       });
-      newStep = []
+      newStep = [];
     }
-  
+
     const instruction = `Good job, you completed a merging step!`;
 
     latest.value.forEach((item) => {
