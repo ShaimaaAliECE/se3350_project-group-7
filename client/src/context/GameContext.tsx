@@ -170,9 +170,13 @@ export const GameProvider: React.FC = ({ children }) => {
       }
     } else {
       // check if all inputs are correct
-      const isCorrect = steps[stepIndex + 1].value.every((arr, index) =>
+      let isCorrect = steps[stepIndex + 1].value.every((arr, index) =>
         checkInput(values[index], arr.toString())
       );
+
+      if (steps[stepIndex + 1].type === "answer") {
+        isCorrect = true;
+      }
 
       if (isCorrect) {
         if (stepIndex === steps.length - 2) {
