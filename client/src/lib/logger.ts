@@ -12,3 +12,8 @@ export type Action =
 export function logActionToServer(action: Action, payload: any): void {
   axios.post("/api/events/", { action, payload });
 }
+
+export async function getLogFromServer(action: Action[]) {
+  const res = await axios.get(`/api/events/`, { params: { action } });
+  return res.data.logs;
+}

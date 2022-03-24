@@ -19,6 +19,10 @@ export type HomeProps = {};
 
 const Home: React.FC<HomeProps> = ({}) => {
   const navigate = useNavigate();
+  const routeChange = () => {
+    let path = "/admin";
+    navigate(path);
+  };
 
   const [selection, setSelection] = useState<number>(0);
 
@@ -60,9 +64,12 @@ const Home: React.FC<HomeProps> = ({}) => {
           ))}
         </Select>
         <Button onClick={start}>Start</Button>
-        <Flex w={"full"}></Flex>
-      </Stack>
-
+        <Button colorScheme="orange" onClick={routeChange}>
+          View Analytics
+        </Button>
+      <Flex w={'full'}>
+      </Flex>
+    </Stack>
       <Box
         bg={useColorModeValue("gray.50", "gray.900")}
         color={useColorModeValue("gray.700", "gray.200")}
