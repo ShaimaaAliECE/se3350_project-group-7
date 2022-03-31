@@ -6,7 +6,8 @@
   "author": "Gareth Lau <Gareth.kh.lau@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"yarn --cwd client start\" \"yarn --cwd server dev\""
+    "dev": "concurrently \"yarn --cwd client start\" \"yarn --cwd server dev\"",
+    "start": "yarn --cwd client build & yarn --cwd server start"
   },
   "devDependencies": {
     "concurrently": "^7.0.0"
